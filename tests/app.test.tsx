@@ -47,4 +47,26 @@ describe("App", () => {
     expect(screen.getByText("as a result of")).toBeInTheDocument();
     expect(screen.queryByText("work on")).not.toBeInTheDocument();
   });
+
+  it("adds, edits, and deletes custom learning items", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Add" }));
+
+    await userEvent.type(screen.getByLabelText("Phrase"), "make progress");
+    await userEvent.type(screen.getByLabelText("Chinese meaning"), "取得进步");
+    await userEvent.type(screen.getByLabelText("Example sentence"), "I make progress when I practice daily.");
+    await userEvent.type(screen.getByLabelText("Chinese example"), "每天练习时我会取得进步。");
+    await userEvent.click(screen.getByRole("button", { name: "Save item" }));
+
+    expect(screen.getByText("make progress")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Edit make progress" }));
+    await userEvent.clear(screen.getByLabelText("Chinese meaning"));
+    await userEvent.type(screen.getByLabelText("Chinese meaning"), "进步");
+    await userEvent.click(screen.getByRole("button", { name: "Save item" }));
+    expect(screen.getByText("进步")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Delete make progress" }));
+    expect(screen.queryByText("make progress")).not.toBeInTheDocument();
+  });
 });
