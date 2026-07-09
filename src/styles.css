@@ -23,6 +23,14 @@ textarea {
   font: inherit;
 }
 
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
 .app-shell {
   width: min(1120px, calc(100vw - 32px));
   margin: 0 auto;
@@ -102,6 +110,17 @@ p {
 .primary-button:disabled {
   cursor: not-allowed;
   opacity: 0.55;
+}
+
+.nav-button:not(.active):hover,
+.segmented-control button:not(.active):hover,
+.answer-button:not(.selected):hover {
+  border-color: #6b7280;
+  background: #f9fafb;
+}
+
+.primary-button:not(:disabled):hover {
+  background: #1f2937;
 }
 
 .screen-grid {

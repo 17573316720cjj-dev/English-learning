@@ -2,6 +2,7 @@
   "name": "english-phrase-practice-site",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://17573316720cjj-dev.github.io/English-learning/",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
