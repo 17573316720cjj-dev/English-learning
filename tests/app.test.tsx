@@ -69,4 +69,17 @@ describe("App", () => {
     await userEvent.click(screen.getByRole("button", { name: "Delete make progress" }));
     expect(screen.queryByText("make progress")).not.toBeInTheDocument();
   });
+
+  it("shows detailed local progress", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "work on" }));
+    await userEvent.click(screen.getByRole("button", { name: "Check answer" }));
+    await userEvent.click(screen.getByRole("button", { name: "Progress" }));
+
+    expect(screen.getByRole("heading", { name: "Learning progress" })).toBeInTheDocument();
+    expect(screen.getByText("1 attempt")).toBeInTheDocument();
+    expect(screen.getByText("Fill-in attempts")).toBeInTheDocument();
+    expect(screen.getByText("Recently practiced")).toBeInTheDocument();
+    expect(screen.getByText("work on")).toBeInTheDocument();
+  });
 });

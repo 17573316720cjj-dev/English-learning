@@ -4,6 +4,7 @@ import { AddItemScreen } from "./components/AddItemScreen";
 import { AppNav, type Screen } from "./components/AppNav";
 import { LibraryScreen } from "./components/LibraryScreen";
 import { PracticeScreen } from "./components/PracticeScreen";
+import { ProgressScreen } from "./components/ProgressScreen";
 import { builtInItems } from "./data/builtInItems";
 import type { LearningItem } from "./domain";
 import { deleteCustomItem, loadCustomItems, loadProgress, saveCustomItem } from "./lib/storage";
@@ -28,15 +29,7 @@ export function App(): React.JSX.Element {
       ) : activeScreen === "Add" ? (
         <AddItemScreen items={allItems} onSave={saveItem} onDelete={removeItem} />
       ) : activeScreen === "Progress" ? (
-        <section className="practice-card">
-          <p className="eyebrow">Progress</p>
-          <h2>{progress.totalAttempts === 1 ? "1 attempt" : `${progress.totalAttempts} attempts`}</h2>
-          <p>
-            {progress.totalAttempts === 0
-              ? "0% accuracy"
-              : `${Math.round((progress.correctAttempts / progress.totalAttempts) * 100)}% accuracy`}
-          </p>
-        </section>
+        <ProgressScreen progress={progress} items={allItems} />
       ) : (
         <section className="practice-card">
           <p className="eyebrow">{activeScreen}</p>
