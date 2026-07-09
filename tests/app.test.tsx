@@ -35,4 +35,16 @@ describe("App", () => {
 
     expect(await screen.findByText("Matched")).toBeInTheDocument();
   });
+
+  it("shows a filterable phrase library", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Library" }));
+
+    expect(screen.getByRole("heading", { name: "Phrase library" })).toBeInTheDocument();
+    expect(screen.getByText("work on")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Writing" }));
+    expect(screen.getByText("as a result of")).toBeInTheDocument();
+    expect(screen.queryByText("work on")).not.toBeInTheDocument();
+  });
 });

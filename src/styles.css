@@ -152,6 +152,41 @@ p {
   color: #6b7280;
 }
 
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.item-list {
+  display: grid;
+  gap: 10px;
+}
+
+.library-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 14px;
+  background: #ffffff;
+}
+
+.library-item h3 {
+  margin: 0 0 6px;
+}
+
+.item-meta {
+  align-self: flex-start;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
 @media (max-width: 720px) {
   .app-header {
     align-items: stretch;
