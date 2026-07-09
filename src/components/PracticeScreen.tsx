@@ -1,6 +1,7 @@
 import type React from "react";
 import { useMemo, useState } from "react";
-import type { LearningItem } from "../domain";
+import type { ExamLevel, LearningItem } from "../domain";
+import { examLevelLabels } from "../data/examItems";
 import {
   buildFillBlankQuestion,
   buildPhraseMatchRound,
@@ -8,6 +9,12 @@ import {
   checkPhraseMatchPair
 } from "../lib/practice";
 import { recordPracticeAttempt } from "../lib/storage";
+
+const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
+
+function getExamFilterLabel(filter: ExamLevel | "All"): string {
+  return filter === "All" ? "All" : examLevelLabels[filter];
+}
 
 export function PracticeScreen({
   items,
@@ -17,10 +24,21 @@ export function PracticeScreen({
   onProgressChange(): void;
 }): React.JSX.Element {
   const [mode, setMode] = useState<"fill-blank" | "phrase-match">("fill-blank");
+  const [activeExamLevel, setActiveExamLevel] = useState<ExamLevel | "All">("All");
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [fillResult, setFillResult] = useState<"correct" | "incorrect" | null>(null);
   const [selectedPhraseId, setSelectedPhraseId] = useState<string | null>(null);
   const [matchResult, setMatchResult] = useState<"matched" | "try-again" | null>(null);
+  const visibleItems = useMemo(
+    () => (activeExamLevel === "All" ? items : items.filter((item) => item.examLevel === activeExamLevel)),
+    [activeExamLevel, items]
+  );
+  const activeItem = visibleItems[0] ?? null;
+  const fillQuestion = useMemo(
+    () => (activeItem ? buildFillBlankQuestion(activeItem, visibleItems) : null),
+    [activeItem, visibleItems]
+  );
+  const matchRound = useMemo(() => buildPhraseMatchRound(visibleItems), [visibleItems]);
 
   if (items.length === 0) {
     return (
@@ -34,11 +52,16 @@ export function PracticeScreen({
     );
   }
 
-  const activeItem = items[0];
-  const fillQuestion = useMemo(() => buildFillBlankQuestion(activeItem, items), [activeItem, items]);
-  const matchRound = useMemo(() => buildPhraseMatchRound(items), [items]);
+  const chooseExamLevel = (filter: ExamLevel | "All"): void => {
+    setActiveExamLevel(filter);
+    setSelectedAnswer("");
+    setFillResult(null);
+    setSelectedPhraseId(null);
+    setMatchResult(null);
+  };
 
   const submitFillBlank = (): void => {
+    if (!fillQuestion) return;
     const result = checkFillBlankAnswer(selectedAnswer, fillQuestion.answer);
     setFillResult(result.correct ? "correct" : "incorrect");
     recordPracticeAttempt({ itemId: fillQuestion.item.id, mode: "fill-blank", correct: result.correct });
@@ -57,6 +80,21 @@ export function PracticeScreen({
   return (
     <section className="screen-grid">
       <div className="practice-card">
+        <div className="filter-section">
+          <span className="filter-label">Exam</span>
+          <div className="filter-row" aria-label="Exam filters">
+            {examFilters.map((filter) => (
+              <button
+                key={filter}
+                className={activeExamLevel === filter ? "nav-button active" : "nav-button"}
+                onClick={() => chooseExamLevel(filter)}
+              >
+                {getExamFilterLabel(filter)}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="segmented-control" aria-label="Practice mode">
           <button className={mode === "fill-blank" ? "active" : ""} onClick={() => setMode("fill-blank")}>
             Sentence fill-in
@@ -66,7 +104,12 @@ export function PracticeScreen({
           </button>
         </div>
 
-        {mode === "fill-blank" ? (
+        {!fillQuestion ? (
+          <div>
+            <h2>No practice items</h2>
+            <p className="muted">Choose another exam level or add a phrase to continue.</p>
+          </div>
+        ) : mode === "fill-blank" ? (
           <div>
             <h2>Complete the sentence</h2>
             <p className="sentence-prompt">{fillQuestion.prompt}</p>

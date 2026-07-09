@@ -1,27 +1,56 @@
 import type React from "react";
 import { useState } from "react";
-import type { LearningItem, PhraseCategory } from "../domain";
+import type { ExamLevel, LearningItem, PhraseCategory } from "../domain";
+import { examLevelLabels } from "../data/examItems";
 
-const filters: Array<PhraseCategory | "All"> = ["All", "Basic", "CET", "Speaking", "Writing", "Daily"];
+const categoryFilters: Array<PhraseCategory | "All"> = ["All", "Basic", "CET", "Speaking", "Writing", "Daily"];
+const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
+
+function getExamFilterLabel(filter: ExamLevel | "All"): string {
+  return filter === "All" ? "All" : examLevelLabels[filter];
+}
 
 export function LibraryScreen({ items }: { items: LearningItem[] }): React.JSX.Element {
-  const [activeFilter, setActiveFilter] = useState<PhraseCategory | "All">("All");
-  const visibleItems = activeFilter === "All" ? items : items.filter((item) => item.category === activeFilter);
+  const [activeCategory, setActiveCategory] = useState<PhraseCategory | "All">("All");
+  const [activeExamLevel, setActiveExamLevel] = useState<ExamLevel | "All">("All");
+  const visibleItems = items.filter((item) => {
+    const matchesCategory = activeCategory === "All" || item.category === activeCategory;
+    const matchesExamLevel = activeExamLevel === "All" || item.examLevel === activeExamLevel;
+
+    return matchesCategory && matchesExamLevel;
+  });
 
   return (
     <section className="practice-card">
       <p className="eyebrow">Library</p>
       <h2>Phrase library</h2>
-      <div className="filter-row" aria-label="Category filters">
-        {filters.map((filter) => (
-          <button
-            key={filter}
-            className={activeFilter === filter ? "nav-button active" : "nav-button"}
-            onClick={() => setActiveFilter(filter)}
-          >
-            {filter}
-          </button>
-        ))}
+      <div className="filter-section">
+        <span className="filter-label">Exam</span>
+        <div className="filter-row" aria-label="Exam filters">
+          {examFilters.map((filter) => (
+            <button
+              key={filter}
+              className={activeExamLevel === filter ? "nav-button active" : "nav-button"}
+              onClick={() => setActiveExamLevel(filter)}
+            >
+              {getExamFilterLabel(filter)}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="filter-section">
+        <span className="filter-label">Category</span>
+        <div className="filter-row" aria-label="Category filters">
+          {categoryFilters.map((filter) => (
+            <button
+              key={filter}
+              className={activeCategory === filter ? "nav-button active" : "nav-button"}
+              onClick={() => setActiveCategory(filter)}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
       </div>
       <div className="item-list">
         {visibleItems.map((item) => (

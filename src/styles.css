@@ -180,11 +180,22 @@ p {
   color: #6b7280;
 }
 
+.filter-section {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.filter-label {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .filter-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 16px 0;
 }
 
 .item-list {

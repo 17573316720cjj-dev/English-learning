@@ -48,6 +48,23 @@ describe("App", () => {
     expect(screen.queryByText("work on")).not.toBeInTheDocument();
   });
 
+  it("filters practice by exam level", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
+
+    expect(screen.getByText(/It is important to ____ a regular study routine/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "adapt to" })).toBeInTheDocument();
+  });
+
+  it("filters the phrase library by exam level", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Library" }));
+    await userEvent.click(screen.getByRole("button", { name: "TEM-8" }));
+
+    expect(screen.getByText("call into question")).toBeInTheDocument();
+    expect(screen.queryByText("work on")).not.toBeInTheDocument();
+  });
+
   it("adds, edits, and deletes custom learning items", async () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "Add" }));
