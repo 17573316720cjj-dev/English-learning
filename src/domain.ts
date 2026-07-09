@@ -1,6 +1,7 @@
 export type PhraseCategory = "Basic" | "CET" | "Speaking" | "Writing" | "Daily";
-export type PhraseDifficulty = "Basic" | "Intermediate";
+export type PhraseDifficulty = "Basic" | "Intermediate" | "Advanced";
 export type LearningItemSource = "built-in" | "custom";
+export type ExamLevel = "CET4" | "CET6" | "TEM4" | "TEM8";
 
 export interface LearningItem {
   id: string;
@@ -11,6 +12,7 @@ export interface LearningItem {
   category: PhraseCategory;
   difficulty: PhraseDifficulty;
   source: LearningItemSource;
+  examLevel?: ExamLevel;
 }
 
 export interface FillBlankQuestion {

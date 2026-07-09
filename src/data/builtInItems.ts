@@ -1,6 +1,7 @@
 import type { LearningItem } from "../domain";
+import { examItems } from "./examItems";
 
-export const builtInItems: LearningItem[] = [
+const generalItems: LearningItem[] = [
   {
     id: "basic-work-on",
     phrase: "work on",
@@ -102,3 +103,5 @@ export const builtInItems: LearningItem[] = [
     source: "built-in"
   }
 ];
+
+export const builtInItems: LearningItem[] = [...generalItems, ...examItems];
