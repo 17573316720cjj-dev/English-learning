@@ -6,9 +6,10 @@ import {
   buildFillBlankQuestion,
   buildPhraseMatchRound,
   checkFillBlankAnswer,
-  checkPhraseMatchPair
+  checkPhraseMatchPair,
+  shuffleLearningItems
 } from "../lib/practice";
-import { recordPracticeAttempt } from "../lib/storage";
+import { loadUserSeed, recordPracticeAttempt } from "../lib/storage";
 
 const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
 
@@ -25,6 +26,8 @@ export function PracticeScreen({
 }): React.JSX.Element {
   const [mode, setMode] = useState<"fill-blank" | "phrase-match">("fill-blank");
   const [activeExamLevel, setActiveExamLevel] = useState<ExamLevel | "All">("All");
+  const [userSeed] = useState(() => loadUserSeed());
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [fillResult, setFillResult] = useState<"correct" | "incorrect" | null>(null);
   const [selectedPhraseId, setSelectedPhraseId] = useState<string | null>(null);
@@ -33,12 +36,20 @@ export function PracticeScreen({
     () => (activeExamLevel === "All" ? items : items.filter((item) => item.examLevel === activeExamLevel)),
     [activeExamLevel, items]
   );
-  const activeItem = visibleItems[0] ?? null;
-  const fillQuestion = useMemo(
-    () => (activeItem ? buildFillBlankQuestion(activeItem, visibleItems) : null),
-    [activeItem, visibleItems]
+  const shuffledItems = useMemo(
+    () => shuffleLearningItems(visibleItems, userSeed, activeExamLevel),
+    [activeExamLevel, userSeed, visibleItems]
   );
-  const matchRound = useMemo(() => buildPhraseMatchRound(visibleItems), [visibleItems]);
+  const safeCurrentIndex = shuffledItems.length === 0 ? 0 : currentIndex % shuffledItems.length;
+  const activeItem = shuffledItems[safeCurrentIndex] ?? null;
+  const fillQuestion = useMemo(
+    () => (activeItem ? buildFillBlankQuestion(activeItem, shuffledItems, `${userSeed}:${activeExamLevel}`) : null),
+    [activeExamLevel, activeItem, shuffledItems, userSeed]
+  );
+  const matchRound = useMemo(
+    () => buildPhraseMatchRound(shuffledItems, `${userSeed}:${activeExamLevel}:${safeCurrentIndex}`),
+    [activeExamLevel, safeCurrentIndex, shuffledItems, userSeed]
+  );
 
   if (items.length === 0) {
     return (
@@ -54,6 +65,15 @@ export function PracticeScreen({
 
   const chooseExamLevel = (filter: ExamLevel | "All"): void => {
     setActiveExamLevel(filter);
+    setCurrentIndex(0);
+    setSelectedAnswer("");
+    setFillResult(null);
+    setSelectedPhraseId(null);
+    setMatchResult(null);
+  };
+
+  const goToNextQuestion = (): void => {
+    setCurrentIndex((index) => (shuffledItems.length === 0 ? 0 : (index + 1) % shuffledItems.length));
     setSelectedAnswer("");
     setFillResult(null);
     setSelectedPhraseId(null);
@@ -128,12 +148,17 @@ export function PracticeScreen({
               Check answer
             </button>
             {fillResult ? (
-              <div className={fillResult === "correct" ? "feedback correct" : "feedback incorrect"}>
-                <strong>{fillResult === "correct" ? "Correct" : "Try again"}</strong>
-                <p>{fillQuestion.item.meaningZh}</p>
-                <p>{fillQuestion.item.example}</p>
-                <p>{fillQuestion.item.exampleZh}</p>
-              </div>
+              <>
+                <div className={fillResult === "correct" ? "feedback correct" : "feedback incorrect"}>
+                  <strong>{fillResult === "correct" ? "Correct" : "Try again"}</strong>
+                  <p>{fillQuestion.item.meaningZh}</p>
+                  <p>{fillQuestion.item.example}</p>
+                  <p>{fillQuestion.item.exampleZh}</p>
+                </div>
+                <button className="primary-button" onClick={goToNextQuestion}>
+                  Next question
+                </button>
+              </>
             ) : null}
           </div>
         ) : (
@@ -161,9 +186,14 @@ export function PracticeScreen({
               </div>
             </div>
             {matchResult ? (
-              <div className={matchResult === "matched" ? "feedback correct" : "feedback incorrect"}>
-                {matchResult === "matched" ? "Matched" : "Try again"}
-              </div>
+              <>
+                <div className={matchResult === "matched" ? "feedback correct" : "feedback incorrect"}>
+                  {matchResult === "matched" ? "Matched" : "Try again"}
+                </div>
+                <button className="primary-button" onClick={goToNextQuestion}>
+                  Next question
+                </button>
+              </>
             ) : null}
           </div>
         )}

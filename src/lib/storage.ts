@@ -2,6 +2,7 @@ import type { LearningItem, ProgressState } from "../domain";
 
 export const CUSTOM_ITEMS_KEY = "english_phrase_practice_custom_items";
 export const PROGRESS_KEY = "english_phrase_practice_progress";
+export const USER_SEED_KEY = "english_phrase_practice_user_seed";
 
 export const emptyProgress: ProgressState = {
   totalAttempts: 0,
@@ -24,6 +25,29 @@ function readJson<T>(key: string, fallback: T): T {
 
 function writeJson<T>(key: string, value: T): void {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function createUserSeed(): string {
+  if (typeof globalThis.crypto?.randomUUID === "function") {
+    return globalThis.crypto.randomUUID();
+  }
+
+  if (typeof globalThis.crypto?.getRandomValues === "function") {
+    const values = new Uint32Array(2);
+    globalThis.crypto.getRandomValues(values);
+    return `${values[0].toString(36)}-${values[1].toString(36)}`;
+  }
+
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+}
+
+export function loadUserSeed(): string {
+  const existingSeed = localStorage.getItem(USER_SEED_KEY);
+  if (existingSeed) return existingSeed;
+
+  const seed = createUserSeed();
+  localStorage.setItem(USER_SEED_KEY, seed);
+  return seed;
 }
 
 export function loadCustomItems(): LearningItem[] {
