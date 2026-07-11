@@ -1,8 +1,8 @@
+import { Home } from "lucide-react";
 import type React from "react";
 
-export type Screen = "Practice" | "Library" | "Add" | "Progress";
-
-const screens: Screen[] = ["Practice", "Library", "Add", "Progress"];
+export type FeatureScreen = "Practice" | "Library" | "Add" | "Progress";
+export type Screen = "Home" | FeatureScreen;
 
 export function AppNav({
   active,
@@ -17,17 +17,17 @@ export function AppNav({
         <p className="eyebrow">PhrasePractice</p>
         <h1>English Phrase Practice</h1>
       </div>
-      <nav className="top-nav" aria-label="Main navigation">
-        {screens.map((screen) => (
+      {active === "Home" ? null : (
+        <nav className="top-nav" aria-label="Main navigation">
           <button
-            key={screen}
-            className={active === screen ? "nav-button active" : "nav-button"}
-            onClick={() => onNavigate(screen)}
+            className="nav-button home-button"
+            onClick={() => onNavigate("Home")}
           >
-            {screen}
+            <Home aria-hidden={true} size={18} strokeWidth={2.2} />
+            <span>Home</span>
           </button>
-        ))}
-      </nav>
+        </nav>
+      )}
     </header>
   );
 }

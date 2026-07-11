@@ -32,24 +32,48 @@ beforeEach(() => {
 });
 
 describe("App", () => {
-  it("opens directly into sentence fill-in practice", () => {
+  it("opens into a home navigation screen", () => {
+    render(<App />);
+
+    expect(screen.getByRole("heading", { name: "Study dashboard" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Practice" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Library" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Add" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Progress" })).toBeInTheDocument();
+  });
+
+  it("navigates from home into sentence fill-in practice", async () => {
     const firstItem = getShuffledItems()[0];
 
     render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
+
     expect(screen.getByRole("heading", { name: "Complete the sentence" })).toBeInTheDocument();
     expect(screen.getByText(getPromptPattern(firstItem))).toBeInTheDocument();
+  });
+
+  it("returns from a feature screen to the home navigation", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Library" }));
+
+    expect(screen.getByRole("heading", { name: "Phrase library" })).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Home" }));
+    expect(screen.getByRole("heading", { name: "Study dashboard" })).toBeInTheDocument();
   });
 
   it("submits a sentence fill-in answer and records progress", async () => {
     const firstItem = getShuffledItems()[0];
 
     render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
     await userEvent.click(screen.getByRole("button", { name: firstItem.phrase }));
     await userEvent.click(screen.getByRole("button", { name: "Check answer" }));
 
     expect(await screen.findByText("Correct")).toBeInTheDocument();
     expect(screen.getByText(firstItem.meaningZh)).toBeInTheDocument();
 
+    await userEvent.click(screen.getByRole("button", { name: "Home" }));
     await userEvent.click(screen.getByRole("button", { name: "Progress" }));
     expect(screen.getByText("1 attempt")).toBeInTheDocument();
     expect(screen.getByText("100% accuracy")).toBeInTheDocument();
@@ -62,11 +86,13 @@ describe("App", () => {
     if (!wrongOption) throw new Error("Expected a distractor option");
 
     render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
     await userEvent.click(screen.getByRole("button", { name: wrongOption }));
     await userEvent.click(screen.getByRole("button", { name: "Check answer" }));
 
     expect(await screen.findByText("Try again")).toBeInTheDocument();
 
+    await userEvent.click(screen.getByRole("button", { name: "Home" }));
     await userEvent.click(screen.getByRole("button", { name: "Progress" }));
     expect(screen.getByText("1 attempt")).toBeInTheDocument();
     expect(screen.getByText("0% accuracy")).toBeInTheDocument();
@@ -79,6 +105,7 @@ describe("App", () => {
     if (!matchingMeaning) throw new Error("Expected a matching meaning");
 
     render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
     await userEvent.click(screen.getByRole("button", { name: "Phrase match" }));
     await userEvent.click(screen.getByRole("button", { name: phrase.text }));
     await userEvent.click(screen.getByRole("button", { name: matchingMeaning.text }));
@@ -93,6 +120,7 @@ describe("App", () => {
     if (!mismatchedMeaning) throw new Error("Expected a mismatched meaning");
 
     render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
     await userEvent.click(screen.getByRole("button", { name: "Phrase match" }));
     await userEvent.click(screen.getByRole("button", { name: phrase.text }));
     await userEvent.click(screen.getByRole("button", { name: mismatchedMeaning.text }));
@@ -116,6 +144,7 @@ describe("App", () => {
     const firstCet4Item = getShuffledItems("CET4")[0];
 
     render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
     await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
 
     expect(screen.getByText(getPromptPattern(firstCet4Item))).toBeInTheDocument();
@@ -168,8 +197,10 @@ describe("App", () => {
     const firstItem = getShuffledItems()[0];
 
     render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
     await userEvent.click(screen.getByRole("button", { name: firstItem.phrase }));
     await userEvent.click(screen.getByRole("button", { name: "Check answer" }));
+    await userEvent.click(screen.getByRole("button", { name: "Home" }));
     await userEvent.click(screen.getByRole("button", { name: "Progress" }));
 
     expect(screen.getByRole("heading", { name: "Learning progress" })).toBeInTheDocument();
