@@ -4,27 +4,28 @@ import type { FeatureScreen } from "./AppNav";
 
 const navItems: Array<{
   screen: FeatureScreen;
+  label: string;
   Icon: React.ComponentType<{ "aria-hidden": true; size: number; strokeWidth: number }>;
 }> = [
-  { screen: "Practice", Icon: PencilLine },
-  { screen: "Library", Icon: BookOpen },
-  { screen: "Add", Icon: Plus },
-  { screen: "Progress", Icon: BarChart3 }
+  { screen: "Practice", label: "练习", Icon: PencilLine },
+  { screen: "Library", label: "词库", Icon: BookOpen },
+  { screen: "Add", label: "添加", Icon: Plus },
+  { screen: "Progress", label: "进度", Icon: BarChart3 }
 ];
 
 export function HomeScreen({ onNavigate }: { onNavigate(screen: FeatureScreen): void }): React.JSX.Element {
   return (
     <section className="home-screen" aria-labelledby="home-title">
       <div className="home-heading">
-        <p className="eyebrow">Navigation</p>
-        <h2 id="home-title">Study dashboard</h2>
+        <p className="eyebrow">导航</p>
+        <h2 id="home-title">学习首页</h2>
       </div>
 
       <div className="home-grid">
-        {navItems.map(({ screen, Icon }) => (
+        {navItems.map(({ screen, label, Icon }) => (
           <button className="home-nav-card" key={screen} onClick={() => onNavigate(screen)}>
             <Icon aria-hidden={true} size={22} strokeWidth={2.2} />
-            <span>{screen}</span>
+            <span>{label}</span>
           </button>
         ))}
       </div>

@@ -54,20 +54,20 @@ describe("PracticeScreen", () => {
   it("shows an empty state when there are no practice items", () => {
     render(<PracticeScreen items={[]} onProgressChange={vi.fn()} />);
 
-    expect(screen.getByRole("heading", { name: "No practice items" })).toBeInTheDocument();
-    expect(screen.getByText("Add a phrase to start practicing.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "暂无练习内容" })).toBeInTheDocument();
+    expect(screen.getByText("添加短语后即可开始练习。")).toBeInTheDocument();
   });
 
   it("shows an empty state when an exam filter has no matching items", async () => {
     render(<PracticeScreen items={[customItem]} onProgressChange={vi.fn()} />);
 
-    expect(screen.getByRole("heading", { name: "Complete the sentence" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "完成句子" })).toBeInTheDocument();
     expect(screen.getByText(/I need to ____ during group discussions/)).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
 
-    expect(screen.getByRole("heading", { name: "No practice items" })).toBeInTheDocument();
-    expect(screen.getByText("Choose another exam level or add a phrase to continue.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "暂无练习内容" })).toBeInTheDocument();
+    expect(screen.getByText("请选择其他考试级别，或添加短语后继续。")).toBeInTheDocument();
     expect(screen.queryByText(/I need to ____ during group discussions/)).not.toBeInTheDocument();
   });
 
@@ -80,8 +80,8 @@ describe("PracticeScreen", () => {
     expect(screen.getByText(promptFor(shuffledItems[0]))).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: shuffledItems[0].phrase }));
-    await userEvent.click(screen.getByRole("button", { name: "Check answer" }));
-    await userEvent.click(screen.getByRole("button", { name: "Next question" }));
+    await userEvent.click(screen.getByRole("button", { name: "检查答案" }));
+    await userEvent.click(screen.getByRole("button", { name: "下一题" }));
 
     expect(screen.getByText(promptFor(shuffledItems[1]))).toBeInTheDocument();
     expect(screen.queryByText(promptFor(shuffledItems[0]))).not.toBeInTheDocument();

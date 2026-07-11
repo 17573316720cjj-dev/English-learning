@@ -14,7 +14,7 @@ import { loadUserSeed, recordPracticeAttempt } from "../lib/storage";
 const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
 
 function getExamFilterLabel(filter: ExamLevel | "All"): string {
-  return filter === "All" ? "All" : examLevelLabels[filter];
+  return filter === "All" ? "全部" : examLevelLabels[filter];
 }
 
 export function PracticeScreen({
@@ -55,9 +55,9 @@ export function PracticeScreen({
     return (
       <section className="screen-grid">
         <div className="practice-card">
-          <p className="eyebrow">Practice</p>
-          <h2>No practice items</h2>
-          <p className="muted">Add a phrase to start practicing.</p>
+          <p className="eyebrow">练习</p>
+          <h2>暂无练习内容</h2>
+          <p className="muted">添加短语后即可开始练习。</p>
         </div>
       </section>
     );
@@ -101,8 +101,8 @@ export function PracticeScreen({
     <section className="screen-grid">
       <div className="practice-card">
         <div className="filter-section">
-          <span className="filter-label">Exam</span>
-          <div className="filter-row" aria-label="Exam filters">
+          <span className="filter-label">考试</span>
+          <div className="filter-row" aria-label="考试筛选">
             {examFilters.map((filter) => (
               <button
                 key={filter}
@@ -115,23 +115,23 @@ export function PracticeScreen({
           </div>
         </div>
 
-        <div className="segmented-control" aria-label="Practice mode">
+        <div className="segmented-control" aria-label="练习模式">
           <button className={mode === "fill-blank" ? "active" : ""} onClick={() => setMode("fill-blank")}>
-            Sentence fill-in
+            句子填空
           </button>
           <button className={mode === "phrase-match" ? "active" : ""} onClick={() => setMode("phrase-match")}>
-            Phrase match
+            短语匹配
           </button>
         </div>
 
         {!fillQuestion ? (
           <div>
-            <h2>No practice items</h2>
-            <p className="muted">Choose another exam level or add a phrase to continue.</p>
+            <h2>暂无练习内容</h2>
+            <p className="muted">请选择其他考试级别，或添加短语后继续。</p>
           </div>
         ) : mode === "fill-blank" ? (
           <div>
-            <h2>Complete the sentence</h2>
+            <h2>完成句子</h2>
             <p className="sentence-prompt">{fillQuestion.prompt}</p>
             <div className="answer-grid">
               {fillQuestion.options.map((option) => (
@@ -145,26 +145,26 @@ export function PracticeScreen({
               ))}
             </div>
             <button className="primary-button" disabled={!selectedAnswer} onClick={submitFillBlank}>
-              Check answer
+              检查答案
             </button>
             {fillResult ? (
               <>
                 <div className={fillResult === "correct" ? "feedback correct" : "feedback incorrect"}>
-                  <strong>{fillResult === "correct" ? "Correct" : "Try again"}</strong>
+                  <strong>{fillResult === "correct" ? "正确" : "再试一次"}</strong>
                   <p>{fillQuestion.item.meaningZh}</p>
                   <p>{fillQuestion.item.example}</p>
                   <p>{fillQuestion.item.exampleZh}</p>
                 </div>
                 <button className="primary-button" onClick={goToNextQuestion}>
-                  Next question
+                  下一题
                 </button>
               </>
             ) : null}
           </div>
         ) : (
           <div>
-            <h2>Phrase match</h2>
-            <p className="muted">Select a phrase, then choose its Chinese meaning.</p>
+            <h2>短语匹配</h2>
+            <p className="muted">先选择英文短语，再选择对应中文释义。</p>
             <div className="match-grid">
               <div className="match-column">
                 {matchRound.phrases.map((entry) => (
@@ -188,10 +188,10 @@ export function PracticeScreen({
             {matchResult ? (
               <>
                 <div className={matchResult === "matched" ? "feedback correct" : "feedback incorrect"}>
-                  {matchResult === "matched" ? "Matched" : "Try again"}
+                  {matchResult === "matched" ? "匹配成功" : "再试一次"}
                 </div>
                 <button className="primary-button" onClick={goToNextQuestion}>
-                  Next question
+                  下一题
                 </button>
               </>
             ) : null}

@@ -14,17 +14,17 @@ export function AppNav({
   return (
     <header className="app-header">
       <div>
-        <p className="eyebrow">PhrasePractice</p>
-        <h1>English Phrase Practice</h1>
+        <p className="eyebrow">英语学习</p>
+        <h1>英语短语练习</h1>
       </div>
       {active === "Home" ? null : (
-        <nav className="top-nav" aria-label="Main navigation">
+        <nav className="top-nav" aria-label="主导航">
           <button
             className="nav-button home-button"
             onClick={() => onNavigate("Home")}
           >
             <Home aria-hidden={true} size={18} strokeWidth={2.2} />
-            <span>Home</span>
+            <span>首页</span>
           </button>
         </nav>
       )}

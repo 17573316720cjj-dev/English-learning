@@ -1,6 +1,7 @@
 import type React from "react";
 import { useState } from "react";
 import type { LearningItem, PhraseCategory, PhraseDifficulty } from "../domain";
+import { categoryLabels, difficultyLabels } from "../lib/labels";
 
 interface FormState {
   id: string;
@@ -48,7 +49,7 @@ export function AddItemScreen({
 
   const submit = (): void => {
     if (!form.phrase.trim() || !form.meaningZh.trim() || !form.example.trim() || !form.exampleZh.trim()) {
-      setError("Please fill in every field.");
+      setError("请填写所有字段。");
       return;
     }
 
@@ -81,55 +82,55 @@ export function AddItemScreen({
 
   return (
     <section className="practice-card">
-      <p className="eyebrow">Add</p>
-      <h2>Add custom phrase</h2>
+      <p className="eyebrow">添加</p>
+      <h2>添加自定义短语</h2>
       <div className="form-grid">
         <label>
-          Phrase
+          英文短语
           <input value={form.phrase} onChange={(event) => update("phrase", event.target.value)} />
         </label>
         <label>
-          Chinese meaning
+          中文释义
           <input value={form.meaningZh} onChange={(event) => update("meaningZh", event.target.value)} />
         </label>
         <label>
-          Example sentence
+          英文例句
           <textarea value={form.example} onChange={(event) => update("example", event.target.value)} />
         </label>
         <label>
-          Chinese example
+          中文例句
           <textarea value={form.exampleZh} onChange={(event) => update("exampleZh", event.target.value)} />
         </label>
         <label>
-          Category
+          分类
           <select
             value={form.category}
             onChange={(event) => update("category", event.target.value as PhraseCategory)}
           >
-            <option>Basic</option>
-            <option>CET</option>
-            <option>Speaking</option>
-            <option>Writing</option>
-            <option>Daily</option>
+            <option value="Basic">{categoryLabels.Basic}</option>
+            <option value="CET">{categoryLabels.CET}</option>
+            <option value="Speaking">{categoryLabels.Speaking}</option>
+            <option value="Writing">{categoryLabels.Writing}</option>
+            <option value="Daily">{categoryLabels.Daily}</option>
           </select>
         </label>
         <label>
-          Difficulty
+          难度
           <select
             value={form.difficulty}
             onChange={(event) => update("difficulty", event.target.value as PhraseDifficulty)}
           >
-            <option>Basic</option>
-            <option>Intermediate</option>
+            <option value="Basic">{difficultyLabels.Basic}</option>
+            <option value="Intermediate">{difficultyLabels.Intermediate}</option>
           </select>
         </label>
       </div>
       {error ? <p className="error-message">{error}</p> : null}
       <button className="primary-button" onClick={submit}>
-        Save item
+        保存条目
       </button>
 
-      <h2 className="section-title">Custom items</h2>
+      <h2 className="section-title">自定义内容</h2>
       <div className="item-list">
         {customItems.map((item) => (
           <article className="library-item" key={item.id}>
@@ -138,11 +139,11 @@ export function AddItemScreen({
               <p>{item.meaningZh}</p>
             </div>
             <div className="row-actions">
-              <button className="nav-button" aria-label={`Edit ${item.phrase}`} onClick={() => edit(item)}>
-                Edit
+              <button className="nav-button" aria-label={`编辑 ${item.phrase}`} onClick={() => edit(item)}>
+                编辑
               </button>
-              <button className="nav-button" aria-label={`Delete ${item.phrase}`} onClick={() => onDelete(item.id)}>
-                Delete
+              <button className="nav-button" aria-label={`删除 ${item.phrase}`} onClick={() => onDelete(item.id)}>
+                删除
               </button>
             </div>
           </article>
