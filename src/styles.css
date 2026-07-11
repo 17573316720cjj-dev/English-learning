@@ -316,6 +316,30 @@ p {
   margin: 4px 0 0;
 }
 
+.practice-settings {
+  margin: 0 0 12px;
+}
+
+.practice-settings .filter-summary {
+  margin: 0;
+}
+
+.practice-settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-panel {
+  margin: 0 0 16px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 14px;
+}
+
+.filter-panel .filter-section:last-child {
+  margin-bottom: 0;
+}
+
 .item-list {
   display: grid;
   gap: 10px;

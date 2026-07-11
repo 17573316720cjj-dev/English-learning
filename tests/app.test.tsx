@@ -70,6 +70,10 @@ beforeEach(() => {
   localStorage.setItem(USER_SEED_KEY, appTestSeed);
 });
 
+async function openPracticeFilters(): Promise<void> {
+  await userEvent.click(screen.getByRole("button", { name: "调整筛选" }));
+}
+
 describe("App", () => {
   it("opens into a home navigation screen", () => {
     render(<App />);
@@ -93,6 +97,22 @@ describe("App", () => {
 
     expect(screen.getByRole("heading", { name: "完成句子" })).toBeInTheDocument();
     expect(screen.getByText(getPromptPattern(firstItem))).toBeInTheDocument();
+  });
+
+  it("keeps practice filters compact until the learner adjusts them", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
+
+    expect(screen.getByLabelText("练习设置")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "调整筛选" })).toBeInTheDocument();
+    expect(screen.queryByLabelText("考试筛选")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "调整筛选" }));
+
+    expect(screen.getByLabelText("考试筛选")).toBeInTheDocument();
+    expect(screen.getByLabelText("练习标签筛选")).toBeInTheDocument();
+    expect(screen.getByLabelText("练习难度筛选")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "收起筛选" })).toBeInTheDocument();
   });
 
   it("returns from a feature screen to the home navigation", async () => {
@@ -200,6 +220,7 @@ describe("App", () => {
 
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await openPracticeFilters();
     await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
 
     expect(screen.getByText(getPromptPattern(firstCet4Item))).toBeInTheDocument();
@@ -211,6 +232,7 @@ describe("App", () => {
 
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await openPracticeFilters();
     await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
     await userEvent.click(screen.getByRole("button", { name: "翻译" }));
     await userEvent.click(screen.getByRole("button", { name: "进阶" }));
@@ -229,6 +251,7 @@ describe("App", () => {
 
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await openPracticeFilters();
     await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
     await userEvent.click(within(screen.getByLabelText("练习标签筛选")).getByRole("button", { name: "翻译" }));
     await userEvent.click(within(screen.getByLabelText("练习难度筛选")).getByRole("button", { name: "进阶" }));
@@ -245,6 +268,7 @@ describe("App", () => {
   it("shows a useful empty practice filter state", async () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await openPracticeFilters();
     await userEvent.click(screen.getByRole("button", { name: "TEM-8" }));
     await userEvent.click(within(screen.getByLabelText("练习标签筛选")).getByRole("button", { name: "口语" }));
 

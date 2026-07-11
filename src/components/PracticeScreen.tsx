@@ -12,7 +12,6 @@ import {
 import { loadUserSeed, recordPracticeAttempt } from "../lib/storage";
 import { difficultyLabels } from "../lib/labels";
 import { getItemTags, phraseTagLabels } from "../lib/tags";
-import { FilterSummary } from "./FilterSummary";
 
 const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
 const tagFilters: Array<PhraseTag | "All"> = ["All", "HighFrequency", "Writing", "Reading", "Translation", "Speaking"];
@@ -48,6 +47,7 @@ export function PracticeScreen({
   const [activeExamLevel, setActiveExamLevel] = useState<ExamLevel | "All">("All");
   const [activeTag, setActiveTag] = useState<PhraseTag | "All">("All");
   const [activeDifficulty, setActiveDifficulty] = useState<PhraseDifficulty | "All">("All");
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [userSeed] = useState(() => loadUserSeed());
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -88,6 +88,8 @@ export function PracticeScreen({
     activeTag === "All" ? null : tagFilterLabels[activeTag],
     activeDifficulty === "All" ? null : difficultyFilterLabels[activeDifficulty]
   ].filter((label): label is string => Boolean(label));
+  const compactFilterLabels =
+    activeFilterLabels.length > 0 ? activeFilterLabels : ["全部考试", "全部标签", "全部难度"];
 
   if (items.length === 0) {
     return (
@@ -206,50 +208,75 @@ export function PracticeScreen({
   return (
     <section className="screen-grid">
       <div className="practice-card">
-        <div className="filter-section">
-          <span className="filter-label">考试</span>
-          <div className="filter-row" aria-label="考试筛选">
-            {examFilters.map((filter) => (
+        <div className="practice-settings" aria-label="练习设置">
+          <div className="filter-summary compact">
+            <div>
+              <strong>当前 {visibleItems.length} 条内容</strong>
+              <p className="muted">{compactFilterLabels.join(" · ")}</p>
+            </div>
+            <div className="practice-settings-actions">
+              {activeFilterLabels.length > 0 ? (
+                <button className="nav-button" onClick={resetFilters}>
+                  重置筛选
+                </button>
+              ) : null}
               <button
-                key={filter}
-                className={activeExamLevel === filter ? "nav-button active" : "nav-button"}
-                onClick={() => chooseExamLevel(filter)}
+                className="nav-button"
+                aria-expanded={filtersOpen}
+                onClick={() => setFiltersOpen((open) => !open)}
               >
-                {getExamFilterLabel(filter)}
+                {filtersOpen ? "收起筛选" : "调整筛选"}
               </button>
-            ))}
-          </div>
-        </div>
-        <div className="filter-section">
-          <span className="filter-label">标签</span>
-          <div className="filter-row" aria-label="练习标签筛选">
-            {tagFilters.map((filter) => (
-              <button
-                key={filter}
-                className={activeTag === filter ? "nav-button active" : "nav-button"}
-                onClick={() => chooseTag(filter)}
-              >
-                {tagFilterLabels[filter]}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="filter-section">
-          <span className="filter-label">难度</span>
-          <div className="filter-row" aria-label="练习难度筛选">
-            {difficultyFilters.map((filter) => (
-              <button
-                key={filter}
-                className={activeDifficulty === filter ? "nav-button active" : "nav-button"}
-                onClick={() => chooseDifficulty(filter)}
-              >
-                {difficultyFilterLabels[filter]}
-              </button>
-            ))}
+            </div>
           </div>
         </div>
 
-        <FilterSummary activeFilters={activeFilterLabels} itemCount={visibleItems.length} onReset={resetFilters} />
+        {filtersOpen ? (
+          <div className="filter-panel">
+            <div className="filter-section">
+              <span className="filter-label">考试</span>
+              <div className="filter-row" aria-label="考试筛选">
+                {examFilters.map((filter) => (
+                  <button
+                    key={filter}
+                    className={activeExamLevel === filter ? "nav-button active" : "nav-button"}
+                    onClick={() => chooseExamLevel(filter)}
+                  >
+                    {getExamFilterLabel(filter)}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="filter-section">
+              <span className="filter-label">标签</span>
+              <div className="filter-row" aria-label="练习标签筛选">
+                {tagFilters.map((filter) => (
+                  <button
+                    key={filter}
+                    className={activeTag === filter ? "nav-button active" : "nav-button"}
+                    onClick={() => chooseTag(filter)}
+                  >
+                    {tagFilterLabels[filter]}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="filter-section">
+              <span className="filter-label">难度</span>
+              <div className="filter-row" aria-label="练习难度筛选">
+                {difficultyFilters.map((filter) => (
+                  <button
+                    key={filter}
+                    className={activeDifficulty === filter ? "nav-button active" : "nav-button"}
+                    onClick={() => chooseDifficulty(filter)}
+                  >
+                    {difficultyFilterLabels[filter]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         <div className="segmented-control" aria-label="练习模式">
           <button className={mode === "fill-blank" ? "active" : ""} onClick={() => setMode("fill-blank")}>

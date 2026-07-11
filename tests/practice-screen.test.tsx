@@ -50,6 +50,10 @@ beforeEach(() => {
   localStorage.setItem(USER_SEED_KEY, practiceSeed);
 });
 
+async function openPracticeFilters(): Promise<void> {
+  await userEvent.click(screen.getByRole("button", { name: "调整筛选" }));
+}
+
 describe("PracticeScreen", () => {
   it("shows an empty state when there are no practice items", () => {
     render(<PracticeScreen items={[]} onProgressChange={vi.fn()} />);
@@ -64,10 +68,11 @@ describe("PracticeScreen", () => {
     expect(screen.getByRole("heading", { name: "完成句子" })).toBeInTheDocument();
     expect(screen.getByText(/I need to ____ during group discussions/)).toBeInTheDocument();
 
+    await openPracticeFilters();
     await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
 
     expect(screen.getByRole("heading", { name: "暂无练习内容" })).toBeInTheDocument();
-    const filterStatus = screen.getByLabelText("筛选状态");
+    const filterStatus = screen.getByLabelText("练习设置");
     expect(within(filterStatus).getByText("当前 0 条内容")).toBeInTheDocument();
     expect(within(filterStatus).getByText("CET-4")).toBeInTheDocument();
     expect(screen.getByText("当前筛选下暂无内容，可重置筛选或选择其他标签。")).toBeInTheDocument();
