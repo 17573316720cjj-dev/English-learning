@@ -121,12 +121,51 @@ p {
   cursor: pointer;
 }
 
+.answer-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
 .nav-button.active,
 .segmented-control button.active,
 .answer-button.selected {
   border-color: var(--border-strong);
   background: #111827;
   color: #ffffff;
+}
+
+.answer-button.match-selected {
+  border-color: #93c5fd;
+  background: #eff6ff;
+  color: #1e3a8a;
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.16);
+}
+
+.answer-button.match-correct {
+  border-color: #86efac;
+  background: #f0fdf4;
+  color: #14532d;
+  box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.16);
+}
+
+.answer-button.match-wrong {
+  border-color: #fca5a5;
+  background: #fff1f2;
+  color: #7f1d1d;
+  box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.14);
+}
+
+.match-state-label {
+  border-radius: 999px;
+  padding: 3px 7px;
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .primary-button {
@@ -143,7 +182,7 @@ p {
 
 .nav-button:not(.active):hover,
 .segmented-control button:not(.active):hover,
-.answer-button:not(.selected):hover {
+.answer-button:not(.selected):not(.match-selected):not(.match-correct):not(.match-wrong):hover {
   border-color: #ccd6e2;
   background: var(--surface-soft);
 }

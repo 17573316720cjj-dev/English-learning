@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { App } from "../src/App";
@@ -16,6 +16,10 @@ function getShuffledItems(examLevel: ExamLevel | "All" = "All"): LearningItem[] 
 
 function getPromptPattern(item: LearningItem): RegExp {
   return new RegExp(item.example.replace(item.phrase, "____").replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+}
+
+function getTextPattern(text: string): RegExp {
+  return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
 }
 
 function getQuestionSeed(examLevel: ExamLevel | "All" = "All"): string {
@@ -120,7 +124,9 @@ describe("App", () => {
   it("shows feedback for mismatched phrase pairs", async () => {
     const round = buildPhraseMatchRound(getShuffledItems(), getMatchSeed());
     const phrase = round.phrases[0];
+    const matchingMeaning = round.meanings.find((entry) => entry.itemId === phrase.itemId);
     const mismatchedMeaning = round.meanings.find((entry) => entry.itemId !== phrase.itemId);
+    if (!matchingMeaning) throw new Error("Expected a matching meaning");
     if (!mismatchedMeaning) throw new Error("Expected a mismatched meaning");
 
     render(<App />);
@@ -130,6 +136,15 @@ describe("App", () => {
     await userEvent.click(screen.getByRole("button", { name: mismatchedMeaning.text }));
 
     expect(await screen.findByText("再试一次")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: getTextPattern(phrase.text) })).toHaveClass("match-selected");
+
+    const wrongMeaningButton = screen.getByRole("button", { name: getTextPattern(mismatchedMeaning.text) });
+    expect(wrongMeaningButton).toHaveClass("match-wrong");
+    expect(within(wrongMeaningButton).getByText("你的选择")).toBeInTheDocument();
+
+    const correctMeaningButton = screen.getByRole("button", { name: getTextPattern(matchingMeaning.text) });
+    expect(correctMeaningButton).toHaveClass("match-correct");
+    expect(within(correctMeaningButton).getByText("正确释义")).toBeInTheDocument();
   });
 
   it("shows a filterable phrase library", async () => {

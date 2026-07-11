@@ -13,6 +13,13 @@ import { loadUserSeed, recordPracticeAttempt } from "../lib/storage";
 
 const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
 
+type MatchFeedback = {
+  result: "matched" | "try-again";
+  phraseItemId: string;
+  chosenMeaningItemId: string;
+  correctMeaningItemId: string;
+};
+
 function getExamFilterLabel(filter: ExamLevel | "All"): string {
   return filter === "All" ? "全部" : examLevelLabels[filter];
 }
@@ -31,7 +38,7 @@ export function PracticeScreen({
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [fillResult, setFillResult] = useState<"correct" | "incorrect" | null>(null);
   const [selectedPhraseId, setSelectedPhraseId] = useState<string | null>(null);
-  const [matchResult, setMatchResult] = useState<"matched" | "try-again" | null>(null);
+  const [matchFeedback, setMatchFeedback] = useState<MatchFeedback | null>(null);
   const visibleItems = useMemo(
     () => (activeExamLevel === "All" ? items : items.filter((item) => item.examLevel === activeExamLevel)),
     [activeExamLevel, items]
@@ -69,7 +76,7 @@ export function PracticeScreen({
     setSelectedAnswer("");
     setFillResult(null);
     setSelectedPhraseId(null);
-    setMatchResult(null);
+    setMatchFeedback(null);
   };
 
   const goToNextQuestion = (): void => {
@@ -77,7 +84,7 @@ export function PracticeScreen({
     setSelectedAnswer("");
     setFillResult(null);
     setSelectedPhraseId(null);
-    setMatchResult(null);
+    setMatchFeedback(null);
   };
 
   const submitFillBlank = (): void => {
@@ -88,13 +95,52 @@ export function PracticeScreen({
     onProgressChange();
   };
 
+  const choosePhrase = (phraseItemId: string): void => {
+    setSelectedPhraseId(phraseItemId);
+    setMatchFeedback(null);
+  };
+
   const chooseMeaning = (meaningItemId: string): void => {
     if (!selectedPhraseId) return;
     const correct = checkPhraseMatchPair(selectedPhraseId, meaningItemId);
-    setMatchResult(correct ? "matched" : "try-again");
+    setMatchFeedback({
+      result: correct ? "matched" : "try-again",
+      phraseItemId: selectedPhraseId,
+      chosenMeaningItemId: meaningItemId,
+      correctMeaningItemId: selectedPhraseId
+    });
     recordPracticeAttempt({ itemId: selectedPhraseId, mode: "phrase-match", correct });
     onProgressChange();
-    setSelectedPhraseId(null);
+    if (correct) {
+      setSelectedPhraseId(null);
+    }
+  };
+
+  const getPhraseMatchClassName = (phraseItemId: string): string => {
+    const classNames = ["answer-button"];
+    const hasActiveFeedback = matchFeedback?.phraseItemId === phraseItemId;
+
+    if (selectedPhraseId === phraseItemId || hasActiveFeedback) {
+      classNames.push(matchFeedback?.result === "matched" && hasActiveFeedback ? "match-correct" : "match-selected");
+    }
+
+    return classNames.join(" ");
+  };
+
+  const getMeaningMatchClassName = (meaningItemId: string): string => {
+    const classNames = ["answer-button"];
+
+    if (!matchFeedback) {
+      return classNames.join(" ");
+    }
+
+    if (meaningItemId === matchFeedback.correctMeaningItemId) {
+      classNames.push("match-correct");
+    } else if (meaningItemId === matchFeedback.chosenMeaningItemId) {
+      classNames.push("match-wrong");
+    }
+
+    return classNames.join(" ");
   };
 
   return (
@@ -170,25 +216,38 @@ export function PracticeScreen({
                 {matchRound.phrases.map((entry) => (
                   <button
                     key={entry.itemId}
-                    className={selectedPhraseId === entry.itemId ? "answer-button selected" : "answer-button"}
-                    onClick={() => setSelectedPhraseId(entry.itemId)}
+                    className={getPhraseMatchClassName(entry.itemId)}
+                    onClick={() => choosePhrase(entry.itemId)}
                   >
                     {entry.text}
+                    {matchFeedback?.phraseItemId === entry.itemId && matchFeedback.result === "matched" ? (
+                      <span className="match-state-label">已匹配</span>
+                    ) : null}
                   </button>
                 ))}
               </div>
               <div className="match-column">
                 {matchRound.meanings.map((entry) => (
-                  <button key={entry.itemId} className="answer-button" onClick={() => chooseMeaning(entry.itemId)}>
+                  <button
+                    key={entry.itemId}
+                    className={getMeaningMatchClassName(entry.itemId)}
+                    onClick={() => chooseMeaning(entry.itemId)}
+                  >
                     {entry.text}
+                    {matchFeedback?.chosenMeaningItemId === entry.itemId && matchFeedback.result === "try-again" ? (
+                      <span className="match-state-label">你的选择</span>
+                    ) : null}
+                    {matchFeedback?.correctMeaningItemId === entry.itemId ? (
+                      <span className="match-state-label">正确释义</span>
+                    ) : null}
                   </button>
                 ))}
               </div>
             </div>
-            {matchResult ? (
+            {matchFeedback ? (
               <>
-                <div className={matchResult === "matched" ? "feedback correct" : "feedback incorrect"}>
-                  {matchResult === "matched" ? "匹配成功" : "再试一次"}
+                <div className={matchFeedback.result === "matched" ? "feedback correct" : "feedback incorrect"}>
+                  {matchFeedback.result === "matched" ? "匹配成功" : "再试一次"}
                 </div>
                 <button className="primary-button" onClick={goToNextQuestion}>
                   下一题
