@@ -60,8 +60,9 @@ describe("App", () => {
     await userEvent.click(screen.getByRole("button", { name: "词库" }));
 
     expect(screen.getByRole("heading", { name: "短语词库" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "首页" })).not.toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "首页" }));
+    await userEvent.click(screen.getByRole("button", { name: "返回首页" }));
     expect(screen.getByRole("heading", { name: "学习首页" })).toBeInTheDocument();
   });
 
@@ -76,7 +77,7 @@ describe("App", () => {
     expect(await screen.findByText("正确")).toBeInTheDocument();
     expect(screen.getByText(firstItem.meaningZh)).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "首页" }));
+    await userEvent.click(screen.getByRole("button", { name: "返回首页" }));
     await userEvent.click(screen.getByRole("button", { name: "进度" }));
     expect(screen.getByText("1 次")).toBeInTheDocument();
     expect(screen.getByText("100%")).toBeInTheDocument();
@@ -95,7 +96,7 @@ describe("App", () => {
 
     expect(await screen.findByText("再试一次")).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "首页" }));
+    await userEvent.click(screen.getByRole("button", { name: "返回首页" }));
     await userEvent.click(screen.getByRole("button", { name: "进度" }));
     expect(screen.getByText("1 次")).toBeInTheDocument();
     expect(screen.getByText("0%")).toBeInTheDocument();
@@ -205,7 +206,7 @@ describe("App", () => {
     await userEvent.click(screen.getByRole("button", { name: "练习" }));
     await userEvent.click(screen.getByRole("button", { name: firstItem.phrase }));
     await userEvent.click(screen.getByRole("button", { name: "检查答案" }));
-    await userEvent.click(screen.getByRole("button", { name: "首页" }));
+    await userEvent.click(screen.getByRole("button", { name: "返回首页" }));
     await userEvent.click(screen.getByRole("button", { name: "进度" }));
 
     expect(screen.getByRole("heading", { name: "学习进度" })).toBeInTheDocument();

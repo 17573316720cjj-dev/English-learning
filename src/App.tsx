@@ -1,5 +1,6 @@
 import type React from "react";
 import { useMemo, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { AddItemScreen } from "./components/AddItemScreen";
 import { AppNav, type Screen } from "./components/AppNav";
 import { HomeScreen } from "./components/HomeScreen";
@@ -22,7 +23,13 @@ export function App(): React.JSX.Element {
 
   return (
     <main className="app-shell">
-      <AppNav active={activeScreen} onNavigate={setActiveScreen} />
+      <AppNav />
+      {activeScreen === "Home" ? null : (
+        <button className="back-home-button" onClick={() => setActiveScreen("Home")}>
+          <ArrowLeft aria-hidden={true} size={18} strokeWidth={2.1} />
+          <span>返回首页</span>
+        </button>
+      )}
       {activeScreen === "Home" ? (
         <HomeScreen onNavigate={setActiveScreen} />
       ) : activeScreen === "Practice" ? (
