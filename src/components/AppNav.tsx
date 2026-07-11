@@ -1,6 +1,6 @@
 import type React from "react";
 
-export type FeatureScreen = "Practice" | "Library" | "Add" | "Progress";
+export type FeatureScreen = "Practice" | "Review" | "Library" | "Add" | "Progress";
 export type Screen = "Home" | FeatureScreen;
 
 export function AppNav(): React.JSX.Element {
