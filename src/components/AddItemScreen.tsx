@@ -2,6 +2,7 @@ import type React from "react";
 import { useState } from "react";
 import type { LearningItem, PhraseCategory, PhraseDifficulty } from "../domain";
 import { categoryLabels, difficultyLabels } from "../lib/labels";
+import { getDefaultPhraseTags } from "../lib/tags";
 
 interface FormState {
   id: string;
@@ -61,6 +62,7 @@ export function AddItemScreen({
       exampleZh: form.exampleZh.trim(),
       category: form.category,
       difficulty: form.difficulty,
+      tags: getDefaultPhraseTags(form.category, form.difficulty),
       source: "custom"
     });
     setForm(emptyForm);

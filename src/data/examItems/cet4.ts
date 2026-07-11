@@ -44,7 +44,8 @@ export const cet4Items = createExamItems("CET4", [
     example: "Better public transport can bring about positive changes in city life.",
     exampleZh: "更好的公共交通能给城市生活带来积极变化。",
     category: "CET",
-    difficulty: "Intermediate"
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Translation"]
   },
   {
     id: "carry-out",
@@ -270,5 +271,205 @@ export const cet4Items = createExamItems("CET4", [
     exampleZh: "良好的健康与规律锻炼和充足睡眠密切相关。",
     category: "CET",
     difficulty: "Intermediate"
+  },
+  {
+    id: "ask-for",
+    phrase: "ask for",
+    meaningZh: "请求，要求",
+    example: "Students should ask for help when they do not understand a grammar point.",
+    exampleZh: "学生不理解语法点时应该请求帮助。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "at-least",
+    phrase: "at least",
+    meaningZh: "至少",
+    example: "You should review new phrases at least three times a week.",
+    exampleZh: "你应该每周至少复习三次新短语。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "be-based-on",
+    phrase: "be based on",
+    meaningZh: "基于，以……为基础",
+    example: "The writing task is based on a short chart about college life.",
+    exampleZh: "这道写作题基于一张关于大学生活的简短图表。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Writing", "Translation"]
+  },
+  {
+    id: "be-familiar-with",
+    phrase: "be familiar with",
+    meaningZh: "熟悉",
+    example: "Candidates should be familiar with the common format of the CET-4 test.",
+    exampleZh: "考生应该熟悉四级考试的常见题型。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "catch-up-with",
+    phrase: "catch up with",
+    meaningZh: "赶上，追上",
+    example: "She worked hard to catch up with her classmates after missing two lessons.",
+    exampleZh: "缺了两节课后，她努力赶上同学。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "come-true",
+    phrase: "come true",
+    meaningZh: "实现，成真",
+    example: "His dream of studying abroad may come true next year.",
+    exampleZh: "他出国学习的梦想明年可能会实现。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "get-along-with",
+    phrase: "get along with",
+    meaningZh: "与……相处",
+    example: "Living in a dormitory helps students learn to get along with others.",
+    exampleZh: "住在宿舍帮助学生学会与他人相处。",
+    category: "Speaking",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "go-over",
+    phrase: "go over",
+    meaningZh: "复习，检查",
+    example: "Before submitting the essay, go over each paragraph carefully.",
+    exampleZh: "提交作文前，要仔细检查每一段。",
+    category: "Writing",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Writing"]
+  },
+  {
+    id: "hand-in",
+    phrase: "hand in",
+    meaningZh: "提交，上交",
+    example: "Please hand in your reading report before Friday afternoon.",
+    exampleZh: "请在周五下午前提交阅读报告。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "hear-from",
+    phrase: "hear from",
+    meaningZh: "收到……来信，得到消息",
+    example: "I hope to hear from the exchange program office soon.",
+    exampleZh: "我希望很快收到交换项目办公室的消息。",
+    category: "Speaking",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "in-public",
+    phrase: "in public",
+    meaningZh: "公开地，在公共场合",
+    example: "Many learners feel nervous when they speak English in public.",
+    exampleZh: "许多学习者在公共场合说英语时会紧张。",
+    category: "Speaking",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "look-up",
+    phrase: "look up",
+    meaningZh: "查阅，查找",
+    example: "Try to guess the meaning before you look up the word in a dictionary.",
+    exampleZh: "查字典前，先试着猜测这个词的意思。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "make-sure",
+    phrase: "make sure",
+    meaningZh: "确保，弄清楚",
+    example: "Make sure your answer matches the question before you choose it.",
+    exampleZh: "选择答案前，要确保你的答案与题目相符。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "on-time",
+    phrase: "on time",
+    meaningZh: "准时",
+    example: "A simple schedule can help students finish assignments on time.",
+    exampleZh: "一个简单的时间表可以帮助学生准时完成作业。",
+    category: "Daily",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "point-out",
+    phrase: "point out",
+    meaningZh: "指出",
+    example: "The teacher pointed out several mistakes in my translation.",
+    exampleZh: "老师指出了我翻译中的几个错误。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Translation"]
+  },
+  {
+    id: "prevent-from",
+    phrase: "prevent from",
+    meaningZh: "阻止，防止",
+    example: "Good planning can prevent students from wasting valuable review time.",
+    exampleZh: "良好的计划能防止学生浪费宝贵的复习时间。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "put-off",
+    phrase: "put off",
+    meaningZh: "推迟",
+    example: "Do not put off reviewing vocabulary until the night before the exam.",
+    exampleZh: "不要把复习词汇推迟到考试前一晚。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "rely-on",
+    phrase: "rely on",
+    meaningZh: "依赖，依靠",
+    example: "Learners should not rely on translation for every sentence.",
+    exampleZh: "学习者不应该每个句子都依赖翻译。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Translation"]
+  },
+  {
+    id: "so-far",
+    phrase: "so far",
+    meaningZh: "到目前为止",
+    example: "So far, the online course has helped me learn many useful phrases.",
+    exampleZh: "到目前为止，这门网课帮我学到了很多有用短语。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "turn-down",
+    phrase: "turn down",
+    meaningZh: "拒绝，调低",
+    example: "He had to turn down the invitation because of an important exam.",
+    exampleZh: "因为一场重要考试，他不得不拒绝邀请。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
   }
 ]);

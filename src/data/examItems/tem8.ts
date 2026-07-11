@@ -270,5 +270,205 @@ export const tem8Items = createExamItems("TEM8", [
     exampleZh: "结论强调了伦理判断的重要性。",
     category: "Writing",
     difficulty: "Advanced"
+  },
+  {
+    id: "adduce-evidence-for",
+    phrase: "adduce evidence for",
+    meaningZh: "为……举证，提出证据",
+    example: "The critic adduces evidence for a more nuanced reading of the novel.",
+    exampleZh: "评论家为这部小说更细致的解读提出了证据。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading"]
+  },
+  {
+    id: "bear-witness-to",
+    phrase: "bear witness to",
+    meaningZh: "证明，见证",
+    example: "The letters bear witness to the writer's intellectual development.",
+    exampleZh: "这些信件见证了作者思想的发展。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "be-tantamount-to",
+    phrase: "be tantamount to",
+    meaningZh: "等同于，无异于",
+    example: "Ignoring context is tantamount to misunderstanding the whole argument.",
+    exampleZh: "忽视语境无异于误解整个论证。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "call-forth",
+    phrase: "call forth",
+    meaningZh: "唤起，引发",
+    example: "The ending calls forth a feeling of unresolved moral tension.",
+    exampleZh: "结尾唤起了一种未解决的道德张力。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "confer-legitimacy-on",
+    phrase: "confer legitimacy on",
+    meaningZh: "赋予……合法性，正当性",
+    example: "Public recognition can confer legitimacy on a new cultural movement.",
+    exampleZh: "公众认可可以赋予一种新文化运动正当性。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "detract-from",
+    phrase: "detract from",
+    meaningZh: "削弱，减损",
+    example: "Overly ornate language may detract from the force of the argument.",
+    exampleZh: "过于华丽的语言可能会削弱论证的力量。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading"]
+  },
+  {
+    id: "give-expression-to",
+    phrase: "give expression to",
+    meaningZh: "表达，体现",
+    example: "The poem gives expression to a deep sense of historical loss.",
+    exampleZh: "这首诗表达了一种深沉的历史失落感。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "lend-itself-to",
+    phrase: "lend itself to",
+    meaningZh: "适合于，容易产生",
+    example: "The ambiguous ending lends itself to several competing interpretations.",
+    exampleZh: "这个含混的结尾适合多种相互竞争的解读。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "loom-large-in",
+    phrase: "loom large in",
+    meaningZh: "显得重要，占据突出位置",
+    example: "Memory looms large in the author's discussion of identity.",
+    exampleZh: "记忆在作者关于身份的讨论中占据突出位置。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "make-a-case-for",
+    phrase: "make a case for",
+    meaningZh: "为……提出理由",
+    example: "The essay makes a case for reading literature as ethical practice.",
+    exampleZh: "这篇文章为把文学阅读视作伦理实践提出理由。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading"]
+  },
+  {
+    id: "open-up",
+    phrase: "open up",
+    meaningZh: "开辟，展开",
+    example: "The new framework opens up fresh possibilities for textual analysis.",
+    exampleZh: "这个新框架为文本分析开辟了新的可能性。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading"]
+  },
+  {
+    id: "preclude-from",
+    phrase: "preclude from",
+    meaningZh: "阻止，使无法",
+    example: "A narrow definition may preclude readers from seeing the broader issue.",
+    exampleZh: "狭窄的定义可能会使读者无法看到更广泛的问题。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "render-obsolete",
+    phrase: "render obsolete",
+    meaningZh: "使过时，使淘汰",
+    example: "New media do not necessarily render older forms of reading obsolete.",
+    exampleZh: "新媒体并不一定会使旧的阅读形式过时。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "rest-on",
+    phrase: "rest on",
+    meaningZh: "基于，依赖于",
+    example: "The interpretation rests on a careful reading of symbolic details.",
+    exampleZh: "这种解释基于对象征性细节的细读。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "revolve-around",
+    phrase: "revolve around",
+    meaningZh: "围绕，以……为中心",
+    example: "The narrative revolves around the conflict between duty and desire.",
+    exampleZh: "叙事围绕责任与欲望之间的冲突展开。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "set-against",
+    phrase: "set against",
+    meaningZh: "以……为背景，对照",
+    example: "The private story is set against a period of political uncertainty.",
+    exampleZh: "这个私人故事以一段政治不确定时期为背景。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "throw-into-relief",
+    phrase: "throw into relief",
+    meaningZh: "使更加突出，凸显",
+    example: "The minor character throws the hero's weakness into relief.",
+    exampleZh: "这个次要人物凸显了主人公的弱点。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading"]
+  },
+  {
+    id: "underlie",
+    phrase: "underlie",
+    meaningZh: "构成……的基础，潜藏于",
+    example: "These assumptions underlie the author's argument about memory.",
+    exampleZh: "这些假设构成了作者关于记忆的论证基础。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "verge-on",
+    phrase: "verge on",
+    meaningZh: "接近，近乎",
+    example: "The description verges on irony when the narrator praises the city.",
+    exampleZh: "当叙述者赞美这座城市时，这段描写近乎讽刺。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "yield-to",
+    phrase: "yield to",
+    meaningZh: "让步于，屈服于",
+    example: "The final paragraph yields to a more uncertain and reflective tone.",
+    exampleZh: "最后一段转向一种更加不确定且反思性的语气。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
   }
 ]);

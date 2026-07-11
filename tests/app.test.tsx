@@ -3,15 +3,32 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { App } from "../src/App";
 import { builtInItems } from "../src/data/builtInItems";
-import type { ExamLevel, LearningItem } from "../src/domain";
+import type { ExamLevel, LearningItem, PhraseDifficulty, PhraseTag } from "../src/domain";
 import { buildFillBlankQuestion, buildPhraseMatchRound, shuffleLearningItems } from "../src/lib/practice";
 import { USER_SEED_KEY, recordPracticeAttempt } from "../src/lib/storage";
+import { getItemTags } from "../src/lib/tags";
 
 const appTestSeed = "app-test-seed";
 
 function getShuffledItems(examLevel: ExamLevel | "All" = "All"): LearningItem[] {
   const sourceItems = examLevel === "All" ? builtInItems : builtInItems.filter((item) => item.examLevel === examLevel);
   return shuffleLearningItems(sourceItems, appTestSeed, examLevel);
+}
+
+function getLayeredShuffledItems(
+  examLevel: ExamLevel | "All",
+  tag: PhraseTag | "All",
+  difficulty: PhraseDifficulty | "All"
+): LearningItem[] {
+  const sourceItems = builtInItems.filter((item) => {
+    const matchesExam = examLevel === "All" || item.examLevel === examLevel;
+    const matchesTag = tag === "All" || getItemTags(item).includes(tag);
+    const matchesDifficulty = difficulty === "All" || item.difficulty === difficulty;
+
+    return matchesExam && matchesTag && matchesDifficulty;
+  });
+
+  return shuffleLearningItems(sourceItems, appTestSeed, `${examLevel}:${tag}:${difficulty}`);
 }
 
 function getPromptPattern(item: LearningItem): RegExp {
@@ -155,7 +172,7 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: "短语词库" })).toBeInTheDocument();
     expect(screen.getByText("work on")).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "写作" }));
+    await userEvent.click(within(screen.getByLabelText("分类筛选")).getByRole("button", { name: "写作" }));
     expect(screen.getByText("as a result of")).toBeInTheDocument();
     expect(screen.queryByText("work on")).not.toBeInTheDocument();
   });
@@ -169,6 +186,20 @@ describe("App", () => {
 
     expect(screen.getByText(getPromptPattern(firstCet4Item))).toBeInTheDocument();
     expect(screen.getByRole("button", { name: firstCet4Item.phrase })).toBeInTheDocument();
+  });
+
+  it("filters practice by exam, tag, and difficulty", async () => {
+    const firstLayeredItem = getLayeredShuffledItems("CET4", "Translation", "Intermediate")[0];
+
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
+    await userEvent.click(screen.getByRole("button", { name: "翻译" }));
+    await userEvent.click(screen.getByRole("button", { name: "进阶" }));
+
+    expect(screen.getByText(getPromptPattern(firstLayeredItem))).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: firstLayeredItem.phrase })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "adapt to" })).not.toBeInTheDocument();
   });
 
   it("filters the phrase library by exam level", async () => {
@@ -188,6 +219,18 @@ describe("App", () => {
 
     expect(screen.getByText("come to terms with")).toBeInTheDocument();
     expect(screen.queryByText("call into question")).not.toBeInTheDocument();
+    expect(screen.queryByText("take advantage of")).not.toBeInTheDocument();
+  });
+
+  it("combines exam, tag, and difficulty filters in the phrase library", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "词库" }));
+    await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
+    await userEvent.click(screen.getByRole("button", { name: "翻译" }));
+    await userEvent.click(screen.getByRole("button", { name: "进阶" }));
+
+    expect(screen.getByText("bring about")).toBeInTheDocument();
+    expect(screen.queryByText("adapt to")).not.toBeInTheDocument();
     expect(screen.queryByText("take advantage of")).not.toBeInTheDocument();
   });
 

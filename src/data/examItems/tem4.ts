@@ -270,5 +270,205 @@ export const tem4Items = createExamItems("TEM4", [
     exampleZh: "演讲者的结论与之前呈现的证据不一致。",
     category: "Writing",
     difficulty: "Advanced"
+  },
+  {
+    id: "allude-to",
+    phrase: "allude to",
+    meaningZh: "暗指，提及",
+    example: "The poem alludes to several well-known myths from ancient Greece.",
+    exampleZh: "这首诗暗指了几个著名的古希腊神话。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "be-indicative-of",
+    phrase: "be indicative of",
+    meaningZh: "表明，显示",
+    example: "The change in tone is indicative of the narrator's growing doubt.",
+    exampleZh: "语气的变化表明叙述者越来越怀疑。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading", "Translation"]
+  },
+  {
+    id: "bear-in-mind",
+    phrase: "bear in mind",
+    meaningZh: "记住，考虑到",
+    example: "Bear in mind that context often determines the meaning of a phrase.",
+    exampleZh: "要记住，语境常常决定短语的含义。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "bring-out",
+    phrase: "bring out",
+    meaningZh: "使显现，出版",
+    example: "The contrast brings out the complexity of the main character.",
+    exampleZh: "这种对比显现出主人公的复杂性。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["Reading", "Writing"]
+  },
+  {
+    id: "call-on",
+    phrase: "call on",
+    meaningZh: "号召，拜访",
+    example: "The speaker called on students to take part in community service.",
+    exampleZh: "演讲者号召学生参加社区服务。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "come-down-to",
+    phrase: "come down to",
+    meaningZh: "归结为，取决于",
+    example: "The success of a translation often comes down to tone and context.",
+    exampleZh: "一篇翻译的成功常常取决于语气和语境。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Translation", "Writing"]
+  },
+  {
+    id: "do-away-with",
+    phrase: "do away with",
+    meaningZh: "废除，去掉",
+    example: "The new edition does away with several outdated expressions.",
+    exampleZh: "新版去掉了几个过时表达。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "follow-through",
+    phrase: "follow through",
+    meaningZh: "坚持到底，完成",
+    example: "A good presentation requires students to follow through on each argument.",
+    exampleZh: "一场好的展示要求学生把每个论点讲完整。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["Speaking", "Writing"]
+  },
+  {
+    id: "give-way-to",
+    phrase: "give way to",
+    meaningZh: "让位于，被……取代",
+    example: "In the final scene, anger gives way to quiet understanding.",
+    exampleZh: "在最后一幕，愤怒让位于平静的理解。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "have-command-of",
+    phrase: "have command of",
+    meaningZh: "掌握，精通",
+    example: "Interpreters must have command of both vocabulary and cultural context.",
+    exampleZh: "口译员必须掌握词汇和文化语境。",
+    category: "Speaking",
+    difficulty: "Advanced",
+    tags: ["Speaking", "Translation"]
+  },
+  {
+    id: "in-the-light-of",
+    phrase: "in the light of",
+    meaningZh: "鉴于，根据",
+    example: "In the light of the new evidence, the old reading becomes less convincing.",
+    exampleZh: "鉴于新证据，旧解读变得不那么有说服力。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading", "Translation"]
+  },
+  {
+    id: "keep-to",
+    phrase: "keep to",
+    meaningZh: "遵守，坚持",
+    example: "In a formal speech, keep to the topic and avoid unnecessary details.",
+    exampleZh: "在正式演讲中，要紧扣主题，避免不必要的细节。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "look-back-on",
+    phrase: "look back on",
+    meaningZh: "回顾",
+    example: "The narrator looks back on childhood with both warmth and regret.",
+    exampleZh: "叙述者带着温情和遗憾回顾童年。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "make-reference-to",
+    phrase: "make reference to",
+    meaningZh: "提到，参考",
+    example: "The essay makes reference to several theories of second language learning.",
+    exampleZh: "这篇文章提到了几个第二语言学习理论。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading"]
+  },
+  {
+    id: "pass-on",
+    phrase: "pass on",
+    meaningZh: "传递，转交",
+    example: "Stories pass on cultural values from one generation to the next.",
+    exampleZh: "故事把文化价值观从一代传递到下一代。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "put-forward-an-argument",
+    phrase: "put forward an argument",
+    meaningZh: "提出论点",
+    example: "The writer puts forward an argument about language and identity.",
+    exampleZh: "作者提出了一个关于语言与身份的论点。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading"]
+  },
+  {
+    id: "run-through",
+    phrase: "run through",
+    meaningZh: "贯穿，快速浏览",
+    example: "A sense of loss runs through the whole passage.",
+    exampleZh: "失落感贯穿整篇文章。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "set-out",
+    phrase: "set out",
+    meaningZh: "阐述，出发",
+    example: "The introduction sets out the purpose of the research clearly.",
+    exampleZh: "引言清楚阐述了研究目的。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Writing"]
+  },
+  {
+    id: "sum-up",
+    phrase: "sum up",
+    meaningZh: "总结，概括",
+    example: "To sum up the passage, focus on the author's main claim.",
+    exampleZh: "概括这篇文章时，要关注作者的主要观点。",
+    category: "Writing",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Writing", "Reading"]
+  },
+  {
+    id: "take-note-of",
+    phrase: "take note of",
+    meaningZh: "注意，留意",
+    example: "Readers should take note of repeated images in the story.",
+    exampleZh: "读者应该留意故事中反复出现的意象。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Reading"]
   }
 ]);

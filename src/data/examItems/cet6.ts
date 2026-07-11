@@ -270,5 +270,205 @@ export const cet6Items = createExamItems("CET6", [
     exampleZh: "儿童可能容易受到网上误导性信息的影响。",
     category: "CET",
     difficulty: "Advanced"
+  },
+  {
+    id: "be-associated-with",
+    phrase: "be associated with",
+    meaningZh: "与……有关",
+    example: "High stress is often associated with poor sleep and low efficiency.",
+    exampleZh: "高压力常常与睡眠差和效率低有关。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "be-characterized-by",
+    phrase: "be characterized by",
+    meaningZh: "以……为特征",
+    example: "Effective academic writing is characterized by clarity and coherence.",
+    exampleZh: "有效的学术写作以清晰和连贯为特征。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "be-confronted-with",
+    phrase: "be confronted with",
+    meaningZh: "面临，遭遇",
+    example: "Graduates are often confronted with difficult choices about their careers.",
+    exampleZh: "毕业生常常面临艰难的职业选择。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "be-rooted-in",
+    phrase: "be rooted in",
+    meaningZh: "根植于，源于",
+    example: "Some learning habits are rooted in students' earlier school experience.",
+    exampleZh: "一些学习习惯源于学生早期的学校经历。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "call-attention-to",
+    phrase: "call attention to",
+    meaningZh: "使人注意到",
+    example: "The report calls attention to the pressure faced by young workers.",
+    exampleZh: "这份报告使人们注意到年轻劳动者面临的压力。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Writing"]
+  },
+  {
+    id: "center-on",
+    phrase: "center on",
+    meaningZh: "集中于，围绕",
+    example: "The discussion centered on how technology changes reading habits.",
+    exampleZh: "讨论集中于技术如何改变阅读习惯。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["Reading", "Speaking"]
+  },
+  {
+    id: "come-into-play",
+    phrase: "come into play",
+    meaningZh: "开始起作用",
+    example: "Motivation comes into play when students face a long preparation period.",
+    exampleZh: "当学生面对漫长备考期时，动机会开始起作用。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "draw-attention-to",
+    phrase: "draw attention to",
+    meaningZh: "引起对……的注意",
+    example: "The author draws attention to the hidden cost of convenience.",
+    exampleZh: "作者引起人们对便利背后隐藏成本的注意。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Writing"]
+  },
+  {
+    id: "engage-in",
+    phrase: "engage in",
+    meaningZh: "从事，参与",
+    example: "Students who engage in regular discussion improve their spoken English.",
+    exampleZh: "经常参与讨论的学生会提高英语口语。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "give-consideration-to",
+    phrase: "give consideration to",
+    meaningZh: "考虑",
+    example: "Universities should give consideration to students' mental health needs.",
+    exampleZh: "大学应该考虑学生的心理健康需求。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "have-a-bearing-on",
+    phrase: "have a bearing on",
+    meaningZh: "对……有影响，与……有关",
+    example: "Family background may have a bearing on access to learning resources.",
+    exampleZh: "家庭背景可能会影响学习资源的获取。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "in-an-effort-to",
+    phrase: "in an effort to",
+    meaningZh: "为了，试图",
+    example: "In an effort to reduce waste, the campus introduced reusable cups.",
+    exampleZh: "为了减少浪费，校园引入了可重复使用的杯子。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Writing", "Translation"]
+  },
+  {
+    id: "in-relation-to",
+    phrase: "in relation to",
+    meaningZh: "关于，与……有关",
+    example: "The article discusses privacy in relation to digital learning platforms.",
+    exampleZh: "这篇文章讨论了与数字学习平台有关的隐私问题。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "lay-the-foundation-for",
+    phrase: "lay the foundation for",
+    meaningZh: "为……奠定基础",
+    example: "Extensive reading can lay the foundation for stronger writing ability.",
+    exampleZh: "广泛阅读可以为更强的写作能力奠定基础。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Writing"]
+  },
+  {
+    id: "make-allowance-for",
+    phrase: "make allowance for",
+    meaningZh: "考虑到，体谅",
+    example: "A fair policy should make allowance for students with different needs.",
+    exampleZh: "公平的政策应该考虑到有不同需求的学生。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "place-restrictions-on",
+    phrase: "place restrictions on",
+    meaningZh: "对……施加限制",
+    example: "Some cities place restrictions on private cars to reduce pollution.",
+    exampleZh: "一些城市对私家车施加限制以减少污染。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "result-from",
+    phrase: "result from",
+    meaningZh: "由……造成，源于",
+    example: "Low confidence may result from repeated failure in communication.",
+    exampleZh: "信心不足可能源于交流中的反复失败。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Translation"]
+  },
+  {
+    id: "serve-as",
+    phrase: "serve as",
+    meaningZh: "充当，起……作用",
+    example: "Practice tests can serve as a useful guide for later review.",
+    exampleZh: "模拟测试可以作为后续复习的有用指南。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "take-a-toll-on",
+    phrase: "take a toll on",
+    meaningZh: "对……造成损害",
+    example: "Long working hours can take a toll on physical and mental health.",
+    exampleZh: "长时间工作会对身心健康造成损害。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "weigh-against",
+    phrase: "weigh against",
+    meaningZh: "权衡，比较",
+    example: "Students should weigh convenience against privacy when choosing apps.",
+    exampleZh: "学生选择应用时应该权衡便利性与隐私。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
   }
 ]);

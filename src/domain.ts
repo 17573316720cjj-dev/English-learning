@@ -1,5 +1,6 @@
 export type PhraseCategory = "Basic" | "CET" | "Speaking" | "Writing" | "Daily";
 export type PhraseDifficulty = "Basic" | "Intermediate" | "Advanced";
+export type PhraseTag = "HighFrequency" | "Writing" | "Reading" | "Translation" | "Speaking";
 export type LearningItemSource = "built-in" | "custom";
 export type ExamLevel = "CET4" | "CET6" | "TEM4" | "TEM8";
 
@@ -11,6 +12,7 @@ export interface LearningItem {
   exampleZh: string;
   category: PhraseCategory;
   difficulty: PhraseDifficulty;
+  tags?: PhraseTag[];
   source: LearningItemSource;
   examLevel?: ExamLevel;
 }

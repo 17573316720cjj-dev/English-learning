@@ -1,4 +1,5 @@
-import type { ExamLevel, LearningItem, PhraseCategory, PhraseDifficulty } from "../../domain";
+import type { ExamLevel, LearningItem, PhraseCategory, PhraseDifficulty, PhraseTag } from "../../domain";
+import { getDefaultPhraseTags } from "../../lib/tags";
 
 interface ExamItemSeed {
   id: string;
@@ -8,6 +9,7 @@ interface ExamItemSeed {
   exampleZh: string;
   category: PhraseCategory;
   difficulty: PhraseDifficulty;
+  tags?: PhraseTag[];
 }
 
 export function createExamItems(examLevel: ExamLevel, items: ExamItemSeed[]): LearningItem[] {
@@ -16,6 +18,7 @@ export function createExamItems(examLevel: ExamLevel, items: ExamItemSeed[]): Le
   return items.map((item) => ({
     ...item,
     id: `${prefix}-${item.id}`,
+    tags: item.tags ?? getDefaultPhraseTags(item.category, item.difficulty),
     source: "built-in",
     examLevel
   }));

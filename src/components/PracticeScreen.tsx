@@ -1,6 +1,6 @@
 import type React from "react";
 import { useMemo, useState } from "react";
-import type { ExamLevel, LearningItem } from "../domain";
+import type { ExamLevel, LearningItem, PhraseDifficulty, PhraseTag } from "../domain";
 import { examLevelLabels } from "../data/examItems";
 import {
   buildFillBlankQuestion,
@@ -10,8 +10,20 @@ import {
   shuffleLearningItems
 } from "../lib/practice";
 import { loadUserSeed, recordPracticeAttempt } from "../lib/storage";
+import { difficultyLabels } from "../lib/labels";
+import { getItemTags, phraseTagLabels } from "../lib/tags";
 
 const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
+const tagFilters: Array<PhraseTag | "All"> = ["All", "HighFrequency", "Writing", "Reading", "Translation", "Speaking"];
+const difficultyFilters: Array<PhraseDifficulty | "All"> = ["All", "Basic", "Intermediate", "Advanced"];
+const tagFilterLabels: Record<PhraseTag | "All", string> = {
+  All: "全部",
+  ...phraseTagLabels
+};
+const difficultyFilterLabels: Record<PhraseDifficulty | "All", string> = {
+  All: "全部",
+  ...difficultyLabels
+};
 
 type MatchFeedback = {
   result: "matched" | "try-again";
@@ -33,6 +45,8 @@ export function PracticeScreen({
 }): React.JSX.Element {
   const [mode, setMode] = useState<"fill-blank" | "phrase-match">("fill-blank");
   const [activeExamLevel, setActiveExamLevel] = useState<ExamLevel | "All">("All");
+  const [activeTag, setActiveTag] = useState<PhraseTag | "All">("All");
+  const [activeDifficulty, setActiveDifficulty] = useState<PhraseDifficulty | "All">("All");
   const [userSeed] = useState(() => loadUserSeed());
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -40,22 +54,33 @@ export function PracticeScreen({
   const [selectedPhraseId, setSelectedPhraseId] = useState<string | null>(null);
   const [matchFeedback, setMatchFeedback] = useState<MatchFeedback | null>(null);
   const visibleItems = useMemo(
-    () => (activeExamLevel === "All" ? items : items.filter((item) => item.examLevel === activeExamLevel)),
-    [activeExamLevel, items]
+    () =>
+      items.filter((item) => {
+        const matchesExamLevel = activeExamLevel === "All" || item.examLevel === activeExamLevel;
+        const matchesTag = activeTag === "All" || getItemTags(item).includes(activeTag);
+        const matchesDifficulty = activeDifficulty === "All" || item.difficulty === activeDifficulty;
+
+        return matchesExamLevel && matchesTag && matchesDifficulty;
+      }),
+    [activeDifficulty, activeExamLevel, activeTag, items]
   );
+  const filterScope =
+    activeTag === "All" && activeDifficulty === "All"
+      ? activeExamLevel
+      : `${activeExamLevel}:${activeTag}:${activeDifficulty}`;
   const shuffledItems = useMemo(
-    () => shuffleLearningItems(visibleItems, userSeed, activeExamLevel),
-    [activeExamLevel, userSeed, visibleItems]
+    () => shuffleLearningItems(visibleItems, userSeed, filterScope),
+    [filterScope, userSeed, visibleItems]
   );
   const safeCurrentIndex = shuffledItems.length === 0 ? 0 : currentIndex % shuffledItems.length;
   const activeItem = shuffledItems[safeCurrentIndex] ?? null;
   const fillQuestion = useMemo(
-    () => (activeItem ? buildFillBlankQuestion(activeItem, shuffledItems, `${userSeed}:${activeExamLevel}`) : null),
-    [activeExamLevel, activeItem, shuffledItems, userSeed]
+    () => (activeItem ? buildFillBlankQuestion(activeItem, shuffledItems, `${userSeed}:${filterScope}`) : null),
+    [activeItem, filterScope, shuffledItems, userSeed]
   );
   const matchRound = useMemo(
-    () => buildPhraseMatchRound(shuffledItems, `${userSeed}:${activeExamLevel}:${safeCurrentIndex}`),
-    [activeExamLevel, safeCurrentIndex, shuffledItems, userSeed]
+    () => buildPhraseMatchRound(shuffledItems, `${userSeed}:${filterScope}:${safeCurrentIndex}`),
+    [filterScope, safeCurrentIndex, shuffledItems, userSeed]
   );
 
   if (items.length === 0) {
@@ -72,6 +97,24 @@ export function PracticeScreen({
 
   const chooseExamLevel = (filter: ExamLevel | "All"): void => {
     setActiveExamLevel(filter);
+    setCurrentIndex(0);
+    setSelectedAnswer("");
+    setFillResult(null);
+    setSelectedPhraseId(null);
+    setMatchFeedback(null);
+  };
+
+  const chooseTag = (filter: PhraseTag | "All"): void => {
+    setActiveTag(filter);
+    setCurrentIndex(0);
+    setSelectedAnswer("");
+    setFillResult(null);
+    setSelectedPhraseId(null);
+    setMatchFeedback(null);
+  };
+
+  const chooseDifficulty = (filter: PhraseDifficulty | "All"): void => {
+    setActiveDifficulty(filter);
     setCurrentIndex(0);
     setSelectedAnswer("");
     setFillResult(null);
@@ -156,6 +199,34 @@ export function PracticeScreen({
                 onClick={() => chooseExamLevel(filter)}
               >
                 {getExamFilterLabel(filter)}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="filter-section">
+          <span className="filter-label">标签</span>
+          <div className="filter-row" aria-label="练习标签筛选">
+            {tagFilters.map((filter) => (
+              <button
+                key={filter}
+                className={activeTag === filter ? "nav-button active" : "nav-button"}
+                onClick={() => chooseTag(filter)}
+              >
+                {tagFilterLabels[filter]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="filter-section">
+          <span className="filter-label">难度</span>
+          <div className="filter-row" aria-label="练习难度筛选">
+            {difficultyFilters.map((filter) => (
+              <button
+                key={filter}
+                className={activeDifficulty === filter ? "nav-button active" : "nav-button"}
+                onClick={() => chooseDifficulty(filter)}
+              >
+                {difficultyFilterLabels[filter]}
               </button>
             ))}
           </div>

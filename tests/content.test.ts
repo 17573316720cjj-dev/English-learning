@@ -2,10 +2,11 @@ import { describe, expect, it } from "vitest";
 import { builtInItems } from "../src/data/builtInItems";
 import { examItems } from "../src/data/examItems";
 import { createExamItems } from "../src/data/examItems/createExamItems";
-import type { ExamLevel, LearningItem } from "../src/domain";
+import type { ExamLevel, LearningItem, PhraseTag } from "../src/domain";
 import { buildFillBlankQuestion } from "../src/lib/practice";
 
 const examLevels: ExamLevel[] = ["CET4", "CET6", "TEM4", "TEM8"];
+const phraseTags: PhraseTag[] = ["HighFrequency", "Writing", "Reading", "Translation", "Speaking"];
 
 function isCompleteExamItem(item: LearningItem): boolean {
   return Boolean(
@@ -16,20 +17,28 @@ function isCompleteExamItem(item: LearningItem): boolean {
       item.exampleZh &&
       item.category &&
       item.difficulty &&
+      item.tags &&
+      item.tags.length > 0 &&
       item.source === "built-in" &&
       item.examLevel
   );
 }
 
 describe("exam content", () => {
-  it("has 30 built-in items for each supported exam level", () => {
+  it("has 50 built-in items for each supported exam level", () => {
     for (const level of examLevels) {
-      expect(examItems.filter((item) => item.examLevel === level)).toHaveLength(30);
+      expect(examItems.filter((item) => item.examLevel === level)).toHaveLength(50);
     }
   });
 
   it("has complete fields for every exam item", () => {
     expect(examItems.every(isCompleteExamItem)).toBe(true);
+  });
+
+  it("covers every learning tag in the exam content bank", () => {
+    for (const tag of phraseTags) {
+      expect(examItems.some((item) => item.tags?.includes(tag))).toBe(true);
+    }
   });
 
   it("does not duplicate built-in item ids", () => {
@@ -53,7 +62,8 @@ describe("exam content", () => {
           example: "The committee will look into the issue carefully.",
           exampleZh: "委员会会仔细调查这个问题。",
           category: "Writing",
-          difficulty: "Intermediate"
+          difficulty: "Intermediate",
+          tags: ["HighFrequency", "Reading"]
         }
       ])
     ).toEqual([
@@ -65,6 +75,7 @@ describe("exam content", () => {
         exampleZh: "委员会会仔细调查这个问题。",
         category: "Writing",
         difficulty: "Intermediate",
+        tags: ["HighFrequency", "Reading"],
         source: "built-in",
         examLevel: "TEM4"
       }
