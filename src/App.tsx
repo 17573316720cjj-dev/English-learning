@@ -7,6 +7,7 @@ import { HomeScreen } from "./components/HomeScreen";
 import { LibraryScreen } from "./components/LibraryScreen";
 import { PracticeScreen } from "./components/PracticeScreen";
 import { ProgressScreen } from "./components/ProgressScreen";
+import { ReviewScreen } from "./components/ReviewScreen";
 import { builtInItems } from "./data/builtInItems";
 import type { LearningItem } from "./domain";
 import { deleteCustomItem, loadCustomItems, loadProgress, saveCustomItem } from "./lib/storage";
@@ -34,6 +35,8 @@ export function App(): React.JSX.Element {
         <HomeScreen onNavigate={setActiveScreen} />
       ) : activeScreen === "Practice" ? (
         <PracticeScreen items={allItems} onProgressChange={refreshProgress} />
+      ) : activeScreen === "Review" ? (
+        <ReviewScreen items={allItems} progress={progress} onProgressChange={refreshProgress} />
       ) : activeScreen === "Library" ? (
         <LibraryScreen items={allItems} />
       ) : activeScreen === "Add" ? (

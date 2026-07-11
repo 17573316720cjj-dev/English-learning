@@ -1,4 +1,4 @@
-import { BarChart3, BookOpen, PencilLine, Plus } from "lucide-react";
+import { BarChart3, BookOpen, PencilLine, Plus, RotateCcw } from "lucide-react";
 import type React from "react";
 import type { FeatureScreen } from "./AppNav";
 
@@ -8,6 +8,7 @@ const navItems: Array<{
   Icon: React.ComponentType<{ "aria-hidden": true; size: number; strokeWidth: number }>;
 }> = [
   { screen: "Practice", label: "练习", Icon: PencilLine },
+  { screen: "Review", label: "错题复习", Icon: RotateCcw },
   { screen: "Library", label: "词库", Icon: BookOpen },
   { screen: "Add", label: "添加", Icon: Plus },
   { screen: "Progress", label: "进度", Icon: BarChart3 }

@@ -5,7 +5,7 @@ import { App } from "../src/App";
 import { builtInItems } from "../src/data/builtInItems";
 import type { ExamLevel, LearningItem } from "../src/domain";
 import { buildFillBlankQuestion, buildPhraseMatchRound, shuffleLearningItems } from "../src/lib/practice";
-import { USER_SEED_KEY } from "../src/lib/storage";
+import { USER_SEED_KEY, recordPracticeAttempt } from "../src/lib/storage";
 
 const appTestSeed = "app-test-seed";
 
@@ -45,6 +45,7 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "词库" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "添加" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "进度" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "错题复习" })).toBeInTheDocument();
     expect(screen.queryByText("English Phrase Practice")).not.toBeInTheDocument();
     expect(screen.queryByText("Study dashboard")).not.toBeInTheDocument();
   });
@@ -229,5 +230,55 @@ describe("App", () => {
     expect(screen.getByText("句子填空")).toBeInTheDocument();
     expect(screen.getByText("最近练习")).toBeInTheDocument();
     expect(screen.getByText(firstItem.phrase)).toBeInTheDocument();
+  });
+
+  it("shows an empty wrong-book review state before mistakes", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "错题复习" }));
+
+    expect(screen.getByRole("heading", { name: "错题复习" })).toBeInTheDocument();
+    expect(screen.getByText("还没有错题")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "开始复习" })).not.toBeInTheDocument();
+  });
+
+  it("adds incorrect answers to the wrong-book review page", async () => {
+    const shuffledItems = getShuffledItems();
+    const question = buildFillBlankQuestion(shuffledItems[0], shuffledItems, getQuestionSeed());
+    const wrongOption = question.options.find((option) => option !== question.answer);
+    if (!wrongOption) throw new Error("Expected a distractor option");
+
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await userEvent.click(screen.getByRole("button", { name: wrongOption }));
+    await userEvent.click(screen.getByRole("button", { name: "检查答案" }));
+    expect(await screen.findByText("再试一次")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "返回首页" }));
+    await userEvent.click(screen.getByRole("button", { name: "错题复习" }));
+
+    expect(screen.getAllByText(question.item.phrase).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/错误 1 次/).length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: "开始复习" })).toBeInTheDocument();
+  });
+
+  it("starts review practice with active weak phrases only", async () => {
+    const weakItem = builtInItems[0];
+    const masteredWrongItem = builtInItems[1];
+
+    recordPracticeAttempt({ itemId: weakItem.id, mode: "fill-blank", correct: false });
+    recordPracticeAttempt({ itemId: masteredWrongItem.id, mode: "fill-blank", correct: false });
+    recordPracticeAttempt({ itemId: masteredWrongItem.id, mode: "fill-blank", correct: true });
+    recordPracticeAttempt({ itemId: masteredWrongItem.id, mode: "fill-blank", correct: true });
+
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "错题复习" }));
+    expect(screen.getAllByText(weakItem.phrase).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(masteredWrongItem.phrase).length).toBeGreaterThan(0);
+
+    await userEvent.click(screen.getByRole("button", { name: "开始复习" }));
+
+    expect(screen.getByRole("heading", { name: "完成句子" })).toBeInTheDocument();
+    expect(screen.getByText(getPromptPattern(weakItem))).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: masteredWrongItem.phrase })).not.toBeInTheDocument();
   });
 });
