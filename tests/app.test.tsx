@@ -31,6 +31,24 @@ function getLayeredShuffledItems(
   return shuffleLearningItems(sourceItems, appTestSeed, `${examLevel}:${tag}:${difficulty}`);
 }
 
+function getFilteredBuiltInItems(input: {
+  examLevel?: ExamLevel | "All";
+  tag?: PhraseTag | "All";
+  difficulty?: PhraseDifficulty | "All";
+}): LearningItem[] {
+  const examLevel = input.examLevel ?? "All";
+  const tag = input.tag ?? "All";
+  const difficulty = input.difficulty ?? "All";
+
+  return builtInItems.filter((item) => {
+    const matchesExam = examLevel === "All" || item.examLevel === examLevel;
+    const matchesTag = tag === "All" || getItemTags(item).includes(tag);
+    const matchesDifficulty = difficulty === "All" || item.difficulty === difficulty;
+
+    return matchesExam && matchesTag && matchesDifficulty;
+  });
+}
+
 function getPromptPattern(item: LearningItem): RegExp {
   return new RegExp(item.example.replace(item.phrase, "____").replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
 }
@@ -202,6 +220,39 @@ describe("App", () => {
     expect(screen.queryByRole("button", { name: "adapt to" })).not.toBeInTheDocument();
   });
 
+  it("shows practice filter status and can reset filters", async () => {
+    const filteredItems = getFilteredBuiltInItems({
+      examLevel: "CET4",
+      tag: "Translation",
+      difficulty: "Intermediate"
+    });
+
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
+    await userEvent.click(within(screen.getByLabelText("练习标签筛选")).getByRole("button", { name: "翻译" }));
+    await userEvent.click(within(screen.getByLabelText("练习难度筛选")).getByRole("button", { name: "进阶" }));
+
+    expect(screen.getByText(`当前 ${filteredItems.length} 条内容`)).toBeInTheDocument();
+    expect(screen.getByText("CET-4 · 翻译 · 进阶")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "重置筛选" }));
+
+    expect(screen.getByText(`当前 ${builtInItems.length} 条内容`)).toBeInTheDocument();
+    expect(screen.queryByText("CET-4 · 翻译 · 进阶")).not.toBeInTheDocument();
+  });
+
+  it("shows a useful empty practice filter state", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await userEvent.click(screen.getByRole("button", { name: "TEM-8" }));
+    await userEvent.click(within(screen.getByLabelText("练习标签筛选")).getByRole("button", { name: "口语" }));
+
+    expect(screen.getByText("当前 0 条内容")).toBeInTheDocument();
+    expect(screen.getByText("TEM-8 · 口语")).toBeInTheDocument();
+    expect(screen.getByText("当前筛选下暂无内容，可重置筛选或选择其他标签。")).toBeInTheDocument();
+  });
+
   it("filters the phrase library by exam level", async () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "词库" }));
@@ -232,6 +283,29 @@ describe("App", () => {
     expect(screen.getByText("bring about")).toBeInTheDocument();
     expect(screen.queryByText("adapt to")).not.toBeInTheDocument();
     expect(screen.queryByText("take advantage of")).not.toBeInTheDocument();
+  });
+
+  it("shows library filter status and can reset filters", async () => {
+    const filteredItems = getFilteredBuiltInItems({
+      examLevel: "CET4",
+      tag: "Translation",
+      difficulty: "Intermediate"
+    });
+
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "词库" }));
+    await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
+    await userEvent.click(within(screen.getByLabelText("标签筛选")).getByRole("button", { name: "翻译" }));
+    await userEvent.click(within(screen.getByLabelText("难度筛选")).getByRole("button", { name: "进阶" }));
+
+    expect(screen.getByText(`当前 ${filteredItems.length} 条内容`)).toBeInTheDocument();
+    expect(screen.getByText("CET-4 · 翻译 · 进阶")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "重置筛选" }));
+
+    expect(screen.getByText(`当前 ${builtInItems.length} 条内容`)).toBeInTheDocument();
+    expect(screen.queryByText("CET-4 · 翻译 · 进阶")).not.toBeInTheDocument();
+    expect(screen.getByText("work on")).toBeInTheDocument();
   });
 
   it("adds, edits, and deletes custom learning items", async () => {

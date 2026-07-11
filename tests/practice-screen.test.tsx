@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PracticeScreen } from "../src/components/PracticeScreen";
@@ -67,7 +67,10 @@ describe("PracticeScreen", () => {
     await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
 
     expect(screen.getByRole("heading", { name: "暂无练习内容" })).toBeInTheDocument();
-    expect(screen.getByText("请选择其他考试级别，或添加短语后继续。")).toBeInTheDocument();
+    const filterStatus = screen.getByLabelText("筛选状态");
+    expect(within(filterStatus).getByText("当前 0 条内容")).toBeInTheDocument();
+    expect(within(filterStatus).getByText("CET-4")).toBeInTheDocument();
+    expect(screen.getByText("当前筛选下暂无内容，可重置筛选或选择其他标签。")).toBeInTheDocument();
     expect(screen.queryByText(/I need to ____ during group discussions/)).not.toBeInTheDocument();
   });
 

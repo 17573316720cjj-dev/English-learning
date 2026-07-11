@@ -4,6 +4,7 @@ import type { ExamLevel, LearningItem, PhraseCategory, PhraseDifficulty, PhraseT
 import { examLevelLabels } from "../data/examItems";
 import { categoryLabels, difficultyLabels } from "../lib/labels";
 import { getItemTags, phraseTagLabels } from "../lib/tags";
+import { FilterSummary } from "./FilterSummary";
 
 const categoryFilters: Array<PhraseCategory | "All"> = ["All", "Basic", "CET", "Speaking", "Writing", "Daily"];
 const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
@@ -39,6 +40,19 @@ export function LibraryScreen({ items }: { items: LearningItem[] }): React.JSX.E
 
     return matchesCategory && matchesExamLevel && matchesTag && matchesDifficulty;
   });
+  const activeFilterLabels = [
+    activeExamLevel === "All" ? null : getExamFilterLabel(activeExamLevel),
+    activeCategory === "All" ? null : categoryFilterLabels[activeCategory],
+    activeTag === "All" ? null : tagFilterLabels[activeTag],
+    activeDifficulty === "All" ? null : difficultyFilterLabels[activeDifficulty]
+  ].filter((label): label is string => Boolean(label));
+
+  const resetFilters = (): void => {
+    setActiveCategory("All");
+    setActiveExamLevel("All");
+    setActiveTag("All");
+    setActiveDifficulty("All");
+  };
 
   return (
     <section className="practice-card">
@@ -100,25 +114,30 @@ export function LibraryScreen({ items }: { items: LearningItem[] }): React.JSX.E
           ))}
         </div>
       </div>
+      <FilterSummary activeFilters={activeFilterLabels} itemCount={visibleItems.length} onReset={resetFilters} />
       <div className="item-list">
-        {visibleItems.map((item) => (
-          <article className="library-item" key={item.id}>
-            <div>
-              <h3>{item.phrase}</h3>
-              <p>{item.meaningZh}</p>
-              <p className="muted">{item.example}</p>
-            </div>
-            <div className="item-meta-list">
-              <span className="item-meta">{categoryLabels[item.category]}</span>
-              <span className="item-meta">{difficultyLabels[item.difficulty]}</span>
-              {getItemTags(item).map((tag) => (
-                <span className="item-meta" key={tag}>
-                  {phraseTagLabels[tag]}
-                </span>
-              ))}
-            </div>
-          </article>
-        ))}
+        {visibleItems.length > 0 ? (
+          visibleItems.map((item) => (
+            <article className="library-item" key={item.id}>
+              <div>
+                <h3>{item.phrase}</h3>
+                <p>{item.meaningZh}</p>
+                <p className="muted">{item.example}</p>
+              </div>
+              <div className="item-meta-list">
+                <span className="item-meta">{categoryLabels[item.category]}</span>
+                <span className="item-meta">{difficultyLabels[item.difficulty]}</span>
+                {getItemTags(item).map((tag) => (
+                  <span className="item-meta" key={tag}>
+                    {phraseTagLabels[tag]}
+                  </span>
+                ))}
+              </div>
+            </article>
+          ))
+        ) : (
+          <p className="muted">当前筛选下暂无内容，可重置筛选或选择其他标签。</p>
+        )}
       </div>
     </section>
   );

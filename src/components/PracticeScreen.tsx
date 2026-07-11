@@ -12,6 +12,7 @@ import {
 import { loadUserSeed, recordPracticeAttempt } from "../lib/storage";
 import { difficultyLabels } from "../lib/labels";
 import { getItemTags, phraseTagLabels } from "../lib/tags";
+import { FilterSummary } from "./FilterSummary";
 
 const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
 const tagFilters: Array<PhraseTag | "All"> = ["All", "HighFrequency", "Writing", "Reading", "Translation", "Speaking"];
@@ -82,6 +83,11 @@ export function PracticeScreen({
     () => buildPhraseMatchRound(shuffledItems, `${userSeed}:${filterScope}:${safeCurrentIndex}`),
     [filterScope, safeCurrentIndex, shuffledItems, userSeed]
   );
+  const activeFilterLabels = [
+    activeExamLevel === "All" ? null : getExamFilterLabel(activeExamLevel),
+    activeTag === "All" ? null : tagFilterLabels[activeTag],
+    activeDifficulty === "All" ? null : difficultyFilterLabels[activeDifficulty]
+  ].filter((label): label is string => Boolean(label));
 
   if (items.length === 0) {
     return (
@@ -115,6 +121,17 @@ export function PracticeScreen({
 
   const chooseDifficulty = (filter: PhraseDifficulty | "All"): void => {
     setActiveDifficulty(filter);
+    setCurrentIndex(0);
+    setSelectedAnswer("");
+    setFillResult(null);
+    setSelectedPhraseId(null);
+    setMatchFeedback(null);
+  };
+
+  const resetFilters = (): void => {
+    setActiveExamLevel("All");
+    setActiveTag("All");
+    setActiveDifficulty("All");
     setCurrentIndex(0);
     setSelectedAnswer("");
     setFillResult(null);
@@ -232,6 +249,8 @@ export function PracticeScreen({
           </div>
         </div>
 
+        <FilterSummary activeFilters={activeFilterLabels} itemCount={visibleItems.length} onReset={resetFilters} />
+
         <div className="segmented-control" aria-label="练习模式">
           <button className={mode === "fill-blank" ? "active" : ""} onClick={() => setMode("fill-blank")}>
             句子填空
@@ -244,7 +263,11 @@ export function PracticeScreen({
         {!fillQuestion ? (
           <div>
             <h2>暂无练习内容</h2>
-            <p className="muted">请选择其他考试级别，或添加短语后继续。</p>
+            <p className="muted">
+              {activeFilterLabels.length > 0
+                ? "当前筛选下暂无内容，可重置筛选或选择其他标签。"
+                : "请选择其他考试级别，或添加短语后继续。"}
+            </p>
           </div>
         ) : mode === "fill-blank" ? (
           <div>

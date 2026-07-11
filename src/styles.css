@@ -299,6 +299,23 @@ p {
   gap: 8px;
 }
 
+.filter-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 2px 0 16px;
+}
+
+.filter-summary strong {
+  font-size: 14px;
+}
+
+.filter-summary p {
+  margin: 4px 0 0;
+}
+
 .item-list {
   display: grid;
   gap: 10px;
