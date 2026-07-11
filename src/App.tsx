@@ -2,6 +2,7 @@ import type React from "react";
 import { useMemo, useState } from "react";
 import { AddItemScreen } from "./components/AddItemScreen";
 import { AppNav, type Screen } from "./components/AppNav";
+import { HomeScreen } from "./components/HomeScreen";
 import { LibraryScreen } from "./components/LibraryScreen";
 import { PracticeScreen } from "./components/PracticeScreen";
 import { ProgressScreen } from "./components/ProgressScreen";
@@ -10,7 +11,7 @@ import type { LearningItem } from "./domain";
 import { deleteCustomItem, loadCustomItems, loadProgress, saveCustomItem } from "./lib/storage";
 
 export function App(): React.JSX.Element {
-  const [activeScreen, setActiveScreen] = useState<Screen>("Practice");
+  const [activeScreen, setActiveScreen] = useState<Screen>("Home");
   const [customItems, setCustomItems] = useState(() => loadCustomItems());
   const [progress, setProgress] = useState(() => loadProgress());
 
@@ -22,7 +23,9 @@ export function App(): React.JSX.Element {
   return (
     <main className="app-shell">
       <AppNav active={activeScreen} onNavigate={setActiveScreen} />
-      {activeScreen === "Practice" ? (
+      {activeScreen === "Home" ? (
+        <HomeScreen onNavigate={setActiveScreen} />
+      ) : activeScreen === "Practice" ? (
         <PracticeScreen items={allItems} onProgressChange={refreshProgress} />
       ) : activeScreen === "Library" ? (
         <LibraryScreen items={allItems} />
@@ -30,13 +33,7 @@ export function App(): React.JSX.Element {
         <AddItemScreen items={allItems} onSave={saveItem} onDelete={removeItem} />
       ) : activeScreen === "Progress" ? (
         <ProgressScreen progress={progress} items={allItems} />
-      ) : (
-        <section className="practice-card">
-          <p className="eyebrow">{activeScreen}</p>
-          <h2>{activeScreen}</h2>
-          <p>Use Practice or Progress while this section is being connected.</p>
-        </section>
-      )}
+      ) : null}
     </main>
   );
 }
