@@ -35,48 +35,51 @@ describe("App", () => {
   it("opens into a home navigation screen", () => {
     render(<App />);
 
-    expect(screen.getByRole("heading", { name: "Study dashboard" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Practice" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Library" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Add" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Progress" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "英语短语练习" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "学习首页" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "练习" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "词库" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "添加" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "进度" })).toBeInTheDocument();
+    expect(screen.queryByText("English Phrase Practice")).not.toBeInTheDocument();
+    expect(screen.queryByText("Study dashboard")).not.toBeInTheDocument();
   });
 
   it("navigates from home into sentence fill-in practice", async () => {
     const firstItem = getShuffledItems()[0];
 
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
 
-    expect(screen.getByRole("heading", { name: "Complete the sentence" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "完成句子" })).toBeInTheDocument();
     expect(screen.getByText(getPromptPattern(firstItem))).toBeInTheDocument();
   });
 
   it("returns from a feature screen to the home navigation", async () => {
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Library" }));
+    await userEvent.click(screen.getByRole("button", { name: "词库" }));
 
-    expect(screen.getByRole("heading", { name: "Phrase library" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "短语词库" })).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "Home" }));
-    expect(screen.getByRole("heading", { name: "Study dashboard" })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "首页" }));
+    expect(screen.getByRole("heading", { name: "学习首页" })).toBeInTheDocument();
   });
 
   it("submits a sentence fill-in answer and records progress", async () => {
     const firstItem = getShuffledItems()[0];
 
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
     await userEvent.click(screen.getByRole("button", { name: firstItem.phrase }));
-    await userEvent.click(screen.getByRole("button", { name: "Check answer" }));
+    await userEvent.click(screen.getByRole("button", { name: "检查答案" }));
 
-    expect(await screen.findByText("Correct")).toBeInTheDocument();
+    expect(await screen.findByText("正确")).toBeInTheDocument();
     expect(screen.getByText(firstItem.meaningZh)).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "Home" }));
-    await userEvent.click(screen.getByRole("button", { name: "Progress" }));
-    expect(screen.getByText("1 attempt")).toBeInTheDocument();
-    expect(screen.getByText("100% accuracy")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "首页" }));
+    await userEvent.click(screen.getByRole("button", { name: "进度" }));
+    expect(screen.getByText("1 次")).toBeInTheDocument();
+    expect(screen.getByText("100%")).toBeInTheDocument();
   });
 
   it("records incorrect fill-in answers", async () => {
@@ -86,16 +89,16 @@ describe("App", () => {
     if (!wrongOption) throw new Error("Expected a distractor option");
 
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
     await userEvent.click(screen.getByRole("button", { name: wrongOption }));
-    await userEvent.click(screen.getByRole("button", { name: "Check answer" }));
+    await userEvent.click(screen.getByRole("button", { name: "检查答案" }));
 
-    expect(await screen.findByText("Try again")).toBeInTheDocument();
+    expect(await screen.findByText("再试一次")).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "Home" }));
-    await userEvent.click(screen.getByRole("button", { name: "Progress" }));
-    expect(screen.getByText("1 attempt")).toBeInTheDocument();
-    expect(screen.getByText("0% accuracy")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "首页" }));
+    await userEvent.click(screen.getByRole("button", { name: "进度" }));
+    expect(screen.getByText("1 次")).toBeInTheDocument();
+    expect(screen.getByText("0%")).toBeInTheDocument();
   });
 
   it("supports phrase matching practice", async () => {
@@ -105,12 +108,12 @@ describe("App", () => {
     if (!matchingMeaning) throw new Error("Expected a matching meaning");
 
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
-    await userEvent.click(screen.getByRole("button", { name: "Phrase match" }));
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await userEvent.click(screen.getByRole("button", { name: "短语匹配" }));
     await userEvent.click(screen.getByRole("button", { name: phrase.text }));
     await userEvent.click(screen.getByRole("button", { name: matchingMeaning.text }));
 
-    expect(await screen.findByText("Matched")).toBeInTheDocument();
+    expect(await screen.findByText("匹配成功")).toBeInTheDocument();
   });
 
   it("shows feedback for mismatched phrase pairs", async () => {
@@ -120,22 +123,22 @@ describe("App", () => {
     if (!mismatchedMeaning) throw new Error("Expected a mismatched meaning");
 
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
-    await userEvent.click(screen.getByRole("button", { name: "Phrase match" }));
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
+    await userEvent.click(screen.getByRole("button", { name: "短语匹配" }));
     await userEvent.click(screen.getByRole("button", { name: phrase.text }));
     await userEvent.click(screen.getByRole("button", { name: mismatchedMeaning.text }));
 
-    expect(await screen.findByText("Try again")).toBeInTheDocument();
+    expect(await screen.findByText("再试一次")).toBeInTheDocument();
   });
 
   it("shows a filterable phrase library", async () => {
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Library" }));
+    await userEvent.click(screen.getByRole("button", { name: "词库" }));
 
-    expect(screen.getByRole("heading", { name: "Phrase library" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "短语词库" })).toBeInTheDocument();
     expect(screen.getByText("work on")).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "Writing" }));
+    await userEvent.click(screen.getByRole("button", { name: "写作" }));
     expect(screen.getByText("as a result of")).toBeInTheDocument();
     expect(screen.queryByText("work on")).not.toBeInTheDocument();
   });
@@ -144,7 +147,7 @@ describe("App", () => {
     const firstCet4Item = getShuffledItems("CET4")[0];
 
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
     await userEvent.click(screen.getByRole("button", { name: "CET-4" }));
 
     expect(screen.getByText(getPromptPattern(firstCet4Item))).toBeInTheDocument();
@@ -153,7 +156,7 @@ describe("App", () => {
 
   it("filters the phrase library by exam level", async () => {
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Library" }));
+    await userEvent.click(screen.getByRole("button", { name: "词库" }));
     await userEvent.click(screen.getByRole("button", { name: "TEM-8" }));
 
     expect(screen.getByText("call into question")).toBeInTheDocument();
@@ -162,9 +165,9 @@ describe("App", () => {
 
   it("combines exam and category filters in the phrase library", async () => {
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Library" }));
+    await userEvent.click(screen.getByRole("button", { name: "词库" }));
     await userEvent.click(screen.getByRole("button", { name: "TEM-8" }));
-    await userEvent.click(screen.getByRole("button", { name: "CET" }));
+    await userEvent.click(screen.getByRole("button", { name: "四六级" }));
 
     expect(screen.getByText("come to terms with")).toBeInTheDocument();
     expect(screen.queryByText("call into question")).not.toBeInTheDocument();
@@ -173,23 +176,25 @@ describe("App", () => {
 
   it("adds, edits, and deletes custom learning items", async () => {
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Add" }));
+    await userEvent.click(screen.getByRole("button", { name: "添加" }));
 
-    await userEvent.type(screen.getByLabelText("Phrase"), "make progress");
-    await userEvent.type(screen.getByLabelText("Chinese meaning"), "取得进步");
-    await userEvent.type(screen.getByLabelText("Example sentence"), "I make progress when I practice daily.");
-    await userEvent.type(screen.getByLabelText("Chinese example"), "每天练习时我会取得进步。");
-    await userEvent.click(screen.getByRole("button", { name: "Save item" }));
+    expect(screen.getByRole("heading", { name: "添加自定义短语" })).toBeInTheDocument();
+
+    await userEvent.type(screen.getByLabelText("英文短语"), "make progress");
+    await userEvent.type(screen.getByLabelText("中文释义"), "取得进步");
+    await userEvent.type(screen.getByLabelText("英文例句"), "I make progress when I practice daily.");
+    await userEvent.type(screen.getByLabelText("中文例句"), "每天练习时我会取得进步。");
+    await userEvent.click(screen.getByRole("button", { name: "保存条目" }));
 
     expect(screen.getByText("make progress")).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "Edit make progress" }));
-    await userEvent.clear(screen.getByLabelText("Chinese meaning"));
-    await userEvent.type(screen.getByLabelText("Chinese meaning"), "进步");
-    await userEvent.click(screen.getByRole("button", { name: "Save item" }));
+    await userEvent.click(screen.getByRole("button", { name: "编辑 make progress" }));
+    await userEvent.clear(screen.getByLabelText("中文释义"));
+    await userEvent.type(screen.getByLabelText("中文释义"), "进步");
+    await userEvent.click(screen.getByRole("button", { name: "保存条目" }));
     expect(screen.getByText("进步")).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "Delete make progress" }));
+    await userEvent.click(screen.getByRole("button", { name: "删除 make progress" }));
     expect(screen.queryByText("make progress")).not.toBeInTheDocument();
   });
 
@@ -197,16 +202,16 @@ describe("App", () => {
     const firstItem = getShuffledItems()[0];
 
     render(<App />);
-    await userEvent.click(screen.getByRole("button", { name: "Practice" }));
+    await userEvent.click(screen.getByRole("button", { name: "练习" }));
     await userEvent.click(screen.getByRole("button", { name: firstItem.phrase }));
-    await userEvent.click(screen.getByRole("button", { name: "Check answer" }));
-    await userEvent.click(screen.getByRole("button", { name: "Home" }));
-    await userEvent.click(screen.getByRole("button", { name: "Progress" }));
+    await userEvent.click(screen.getByRole("button", { name: "检查答案" }));
+    await userEvent.click(screen.getByRole("button", { name: "首页" }));
+    await userEvent.click(screen.getByRole("button", { name: "进度" }));
 
-    expect(screen.getByRole("heading", { name: "Learning progress" })).toBeInTheDocument();
-    expect(screen.getByText("1 attempt")).toBeInTheDocument();
-    expect(screen.getByText("Fill-in attempts")).toBeInTheDocument();
-    expect(screen.getByText("Recently practiced")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "学习进度" })).toBeInTheDocument();
+    expect(screen.getByText("1 次")).toBeInTheDocument();
+    expect(screen.getByText("句子填空")).toBeInTheDocument();
+    expect(screen.getByText("最近练习")).toBeInTheDocument();
     expect(screen.getByText(firstItem.phrase)).toBeInTheDocument();
   });
 });
