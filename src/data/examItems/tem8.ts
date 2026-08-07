@@ -44,7 +44,8 @@ export const tem8Items = createExamItems("TEM8", [
     example: "The inconsistent data cast doubt on the conclusion of the study.",
     exampleZh: "不一致的数据使人怀疑该研究的结论。",
     category: "Writing",
-    difficulty: "Advanced"
+    difficulty: "Advanced",
+    tags: ["HighFrequency", "Writing", "Reading", "Translation"]
   },
   {
     id: "come-to-terms-with",
@@ -107,7 +108,8 @@ export const tem8Items = createExamItems("TEM8", [
     example: "The novel grapples with questions of identity and social responsibility.",
     exampleZh: "这部小说探讨了身份认同和社会责任问题。",
     category: "Writing",
-    difficulty: "Advanced"
+    difficulty: "Advanced",
+    tags: ["HighFrequency", "Writing", "Reading", "Translation"]
   },
   {
     id: "hinge-on",
@@ -134,7 +136,8 @@ export const tem8Items = createExamItems("TEM8", [
     example: "In light of recent research, the traditional view needs revision.",
     exampleZh: "鉴于近期研究，传统观点需要修正。",
     category: "Writing",
-    difficulty: "Advanced"
+    difficulty: "Advanced",
+    tags: ["HighFrequency", "Writing", "Reading", "Translation"]
   },
   {
     id: "lend-credence-to",
@@ -152,7 +155,8 @@ export const tem8Items = createExamItems("TEM8", [
     example: "A translation should not lose sight of the author's tone.",
     exampleZh: "翻译不应忽视作者的语气。",
     category: "Writing",
-    difficulty: "Advanced"
+    difficulty: "Advanced",
+    tags: ["HighFrequency", "Writing", "Translation"]
   },
   {
     id: "militate-against",
@@ -188,7 +192,8 @@ export const tem8Items = createExamItems("TEM8", [
     example: "The repeated image of darkness points to the speaker's anxiety.",
     exampleZh: "反复出现的黑暗意象表明了说话者的焦虑。",
     category: "Writing",
-    difficulty: "Advanced"
+    difficulty: "Advanced",
+    tags: ["HighFrequency", "Writing", "Reading", "Translation"]
   },
   {
     id: "reconcile-with",
@@ -206,7 +211,8 @@ export const tem8Items = createExamItems("TEM8", [
     example: "A weak argument often resorts to emotion instead of evidence.",
     exampleZh: "薄弱的论证往往诉诸情绪而非证据。",
     category: "Writing",
-    difficulty: "Advanced"
+    difficulty: "Advanced",
+    tags: ["HighFrequency", "Writing", "Translation"]
   },
   {
     id: "run-counter-to",
@@ -470,5 +476,105 @@ export const tem8Items = createExamItems("TEM8", [
     category: "Writing",
     difficulty: "Advanced",
     tags: ["Writing", "Translation"]
+  },
+  {
+    id: "argue-in-favor-of",
+    phrase: "argue in favor of",
+    meaningZh: "论证支持，主张",
+    example: "In the oral test, argue in favor of your position with textual evidence.",
+    exampleZh: "在口试中，用文本证据论证支持你的立场。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking", "Writing"]
+  },
+  {
+    id: "build-on",
+    phrase: "build on",
+    meaningZh: "以……为基础，进一步发展",
+    example: "A strong answer should build on the examiner's question instead of avoiding it.",
+    exampleZh: "有力的回答应以考官的问题为基础进一步展开，而不是回避问题。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking", "Reading"]
+  },
+  {
+    id: "put-forward-a-view",
+    phrase: "put forward a view",
+    meaningZh: "提出观点",
+    example: "When discussing the passage, put forward a view and defend it briefly.",
+    exampleZh: "讨论文章时，提出一个观点并简要加以辩护。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking", "Writing"]
+  },
+  {
+    id: "refer-in-passing-to",
+    phrase: "refer in passing to",
+    meaningZh: "顺带提到",
+    example: "The speaker may refer in passing to the historical background of the text.",
+    exampleZh: "发言者可以顺带提到文本的历史背景。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking", "Reading"]
+  },
+  {
+    id: "respond-critically-to",
+    phrase: "respond critically to",
+    meaningZh: "批判性回应",
+    example: "Candidates should respond critically to the author's assumptions.",
+    exampleZh: "考生应批判性回应作者的假设。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking", "Reading"]
+  },
+  {
+    id: "speak-at-length-about",
+    phrase: "speak at length about",
+    meaningZh: "详细谈论",
+    example: "Be ready to speak at length about the theme and structure of a passage.",
+    exampleZh: "要准备好详细谈论文章的主题和结构。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "take-a-balanced-view-of",
+    phrase: "take a balanced view of",
+    meaningZh: "客观看待，全面看待",
+    example: "A mature response should take a balanced view of tradition and change.",
+    exampleZh: "成熟的回答应客观看待传统与变化。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking", "Writing"]
+  },
+  {
+    id: "tie-in-with",
+    phrase: "tie in with",
+    meaningZh: "与……相关，与……一致",
+    example: "Your final point should tie in with the central argument of the passage.",
+    exampleZh: "你的最后一点应与文章的中心论点相关。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking", "Reading"]
+  },
+  {
+    id: "walk-through",
+    phrase: "walk through",
+    meaningZh: "逐步说明，带领梳理",
+    example: "The candidate can walk through the paragraph before giving an evaluation.",
+    exampleZh: "考生可以先逐步梳理这一段，再给出评价。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "weigh-up-the-merits-of",
+    phrase: "weigh up the merits of",
+    meaningZh: "权衡……的优点",
+    example: "The examiner may ask you to weigh up the merits of two interpretations.",
+    exampleZh: "考官可能会要求你权衡两种解释的优点。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking", "Writing"]
   }
 ]);

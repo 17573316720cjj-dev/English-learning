@@ -270,10 +270,10 @@ describe("App", () => {
     await userEvent.click(screen.getByRole("button", { name: "练习" }));
     await openPracticeFilters();
     await userEvent.click(screen.getByRole("button", { name: "TEM-8" }));
-    await userEvent.click(within(screen.getByLabelText("练习标签筛选")).getByRole("button", { name: "口语" }));
+    await userEvent.click(within(screen.getByLabelText("练习难度筛选")).getByRole("button", { name: "基础" }));
 
     expect(screen.getByText("当前 0 条内容")).toBeInTheDocument();
-    expect(screen.getByText("TEM-8 · 口语")).toBeInTheDocument();
+    expect(screen.getByText("TEM-8 · 基础")).toBeInTheDocument();
     expect(screen.getByText("当前筛选下暂无内容，可重置筛选或选择其他标签。")).toBeInTheDocument();
   });
 
