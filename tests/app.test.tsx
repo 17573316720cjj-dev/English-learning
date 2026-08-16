@@ -5,7 +5,12 @@ import { App } from "../src/App";
 import { builtInItems } from "../src/data/builtInItems";
 import type { ExamLevel, LearningItem, PhraseDifficulty, PhraseTag } from "../src/domain";
 import { buildFillBlankQuestion, buildPhraseMatchRound, shuffleLearningItems } from "../src/lib/practice";
-import { USER_SEED_KEY, recordPracticeAttempt } from "../src/lib/storage";
+import {
+  USER_SEED_KEY,
+  loadProgress,
+  recordPracticeAttempt
+} from "../src/lib/storage";
+import { getTodayPracticeDateKey, getTodayPracticeItems } from "../src/lib/studyPlans";
 import { getItemTags } from "../src/lib/tags";
 
 const appTestSeed = "app-test-seed";
@@ -80,7 +85,11 @@ describe("App", () => {
 
     expect(screen.getByRole("heading", { name: "英语短语练习" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "学习首页" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "今日练习" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "备考入口" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "练习" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /开始今日练习/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /CET-6 写作翻译/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "词库" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "添加" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "进度" })).toBeInTheDocument();
@@ -97,6 +106,40 @@ describe("App", () => {
 
     expect(screen.getByRole("heading", { name: "完成句子" })).toBeInTheDocument();
     expect(screen.getByText(getPromptPattern(firstItem))).toBeInTheDocument();
+  });
+
+  it("starts a study-plan preset from the home screen", async () => {
+    const firstWritingItem = getLayeredShuffledItems("CET6", "Writing", "Intermediate")[0];
+
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: /CET-6 写作翻译/ }));
+
+    expect(screen.getByRole("heading", { name: "CET-6 写作翻译" })).toBeInTheDocument();
+    expect(screen.getByText("CET-6 · 写作 · 进阶")).toBeInTheDocument();
+    expect(screen.getByText(getPromptPattern(firstWritingItem))).toBeInTheDocument();
+  });
+
+  it("starts today's practice from weak items and high-frequency review", async () => {
+    const weakItem = builtInItems.find((item) => item.examLevel === "CET4" && getItemTags(item).includes("HighFrequency"));
+    if (!weakItem) throw new Error("Expected a CET-4 high-frequency item");
+
+    recordPracticeAttempt({ itemId: weakItem.id, mode: "fill-blank", correct: false });
+    const dateKey = getTodayPracticeDateKey();
+    const todayItems = getTodayPracticeItems(builtInItems, loadProgress(), appTestSeed, dateKey);
+    const shuffledTodayItems = shuffleLearningItems(todayItems, appTestSeed, `Today:${dateKey}`);
+    const firstTodayQuestion = buildFillBlankQuestion(
+      shuffledTodayItems[0],
+      shuffledTodayItems,
+      `${appTestSeed}:Today:${dateKey}`
+    );
+
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: /开始今日练习/ }));
+
+    expect(screen.getByRole("heading", { name: "今日练习" })).toBeInTheDocument();
+    expect(screen.getByText(`当前 ${todayItems.length} 条内容`)).toBeInTheDocument();
+    expect(todayItems.map((item) => item.id)).toContain(weakItem.id);
+    expect(screen.getByText(firstTodayQuestion.prompt)).toBeInTheDocument();
   });
 
   it("keeps practice filters compact until the learner adjusts them", async () => {

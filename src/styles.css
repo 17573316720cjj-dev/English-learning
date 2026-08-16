@@ -207,7 +207,37 @@ p {
   line-height: 1.15;
 }
 
+.home-section {
+  display: grid;
+  gap: 12px;
+}
+
+.home-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.home-section-heading h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.home-section-meta {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .home-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.study-plan-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
@@ -228,12 +258,55 @@ p {
   cursor: pointer;
 }
 
+.daily-practice-card,
+.study-plan-card {
+  display: grid;
+  align-content: space-between;
+  justify-items: start;
+  gap: 12px;
+  min-height: 122px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 18px;
+  color: #111827;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  text-align: left;
+}
+
+.daily-practice-card {
+  min-height: 116px;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  align-content: center;
+}
+
+.daily-practice-card small {
+  grid-column: 2;
+}
+
 .home-nav-card span {
   font-size: 22px;
   font-weight: 800;
 }
 
-.home-nav-card:hover {
+.daily-practice-card span,
+.study-plan-card span {
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.daily-practice-card small,
+.study-plan-card small {
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.home-nav-card:hover,
+.daily-practice-card:hover,
+.study-plan-card:hover {
   border-color: #ccd6e2;
   background: var(--surface);
 }
@@ -318,6 +391,20 @@ p {
 
 .practice-settings {
   margin: 0 0 12px;
+}
+
+.practice-launch-summary {
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 16px;
+}
+
+.practice-launch-summary h2 {
+  margin: 0 0 6px;
+}
+
+.practice-launch-summary p:last-child {
+  margin-bottom: 0;
 }
 
 .practice-settings .filter-summary {
@@ -455,6 +542,10 @@ p {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .study-plan-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -482,6 +573,10 @@ p {
 
 @media (max-width: 520px) {
   .home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .study-plan-grid {
     grid-template-columns: 1fr;
   }
 
