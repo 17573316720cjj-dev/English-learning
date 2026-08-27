@@ -470,5 +470,105 @@ export const cet6Items = createExamItems("CET6", [
     category: "Writing",
     difficulty: "Advanced",
     tags: ["Writing", "Translation"]
+  },
+  {
+    id: "bring-up",
+    phrase: "bring up",
+    meaningZh: "提出，提起",
+    example: "During group discussion, bring up one concrete example to support your view.",
+    exampleZh: "小组讨论时，提出一个具体例子来支持你的观点。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "elaborate-on",
+    phrase: "elaborate on",
+    meaningZh: "详细说明，阐述",
+    example: "Please elaborate on the reasons behind your choice in the oral task.",
+    exampleZh: "请在口语任务中详细说明你做出选择的原因。",
+    category: "Speaking",
+    difficulty: "Advanced",
+    tags: ["Speaking", "Writing"]
+  },
+  {
+    id: "respond-to",
+    phrase: "respond to",
+    meaningZh: "回应，对……作出反应",
+    example: "A confident speaker can respond to unexpected questions calmly.",
+    exampleZh: "自信的发言者能够冷静回应意料之外的问题。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "speak-in-favor-of",
+    phrase: "speak in favor of",
+    meaningZh: "发言支持，赞成",
+    example: "Several students spoke in favor of a longer library schedule.",
+    exampleZh: "几名学生发言支持延长图书馆开放时间。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "take-the-floor",
+    phrase: "take the floor",
+    meaningZh: "发言，开始讲话",
+    example: "Volunteers may take the floor after the chair introduces the topic.",
+    exampleZh: "主持人介绍话题后，志愿者可以开始发言。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "exchange-views-on",
+    phrase: "exchange views on",
+    meaningZh: "就……交换看法",
+    example: "Participants exchange views on campus safety before writing their reports.",
+    exampleZh: "参与者在写报告前就校园安全交换看法。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "be-conducive-to",
+    phrase: "be conducive to",
+    meaningZh: "有助于，有益于",
+    example: "A quiet environment is conducive to deep reading and careful thinking.",
+    exampleZh: "安静的环境有助于深入阅读和认真思考。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "be-deprived-of",
+    phrase: "be deprived of",
+    meaningZh: "被剥夺，失去",
+    example: "Children should not be deprived of equal access to education.",
+    exampleZh: "儿童不应被剥夺平等接受教育的机会。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "as-opposed-to",
+    phrase: "as opposed to",
+    meaningZh: "而不是，与……相对",
+    example: "The passage values active learning as opposed to passive memorization.",
+    exampleZh: "这篇文章重视主动学习，而不是被动记忆。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["Writing", "Reading", "Translation"]
+  },
+  {
+    id: "in-pursuit-of",
+    phrase: "in pursuit of",
+    meaningZh: "为了追求",
+    example: "In pursuit of higher efficiency, many learners try digital study tools.",
+    exampleZh: "为了追求更高效率，许多学习者尝试数字学习工具。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Translation"]
   }
 ]);

@@ -1,7 +1,7 @@
 import type { ExamLevel, LearningItem, PhraseCategory, PhraseDifficulty, PhraseTag } from "../../domain";
 import { getDefaultPhraseTags } from "../../lib/tags";
 
-interface ExamItemSeed {
+export interface ExamItemSeed {
   id: string;
   phrase: string;
   meaningZh: string;

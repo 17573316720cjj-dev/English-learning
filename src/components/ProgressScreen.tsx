@@ -1,6 +1,39 @@
 import type React from "react";
 import type { LearningItem, ProgressState } from "../domain";
+import { examLevelLabels } from "../data/examItems";
 import { categoryLabels, formatAttemptCount } from "../lib/labels";
+import { getExamProgressSummaries, type ExamProgressSummary } from "../lib/progressStats";
+import { phraseTagLabels } from "../lib/tags";
+
+function ExamProgressCard({ summary }: { summary: ExamProgressSummary }): React.JSX.Element {
+  const examLabel = examLevelLabels[summary.examLevel];
+
+  return (
+    <article className="exam-progress-card" aria-label={`${examLabel} 进度`}>
+      <div className="exam-progress-card-header">
+        <h3>{examLabel}</h3>
+        <span className="item-meta">{summary.totalAttempts > 0 ? `正确率 ${summary.accuracy}%` : "尚未开始"}</span>
+      </div>
+      <div className="exam-progress-metrics">
+        <span>已练 {summary.practicedItems} / {summary.totalItems}</span>
+        <span>练习 {formatAttemptCount(summary.totalAttempts)}</span>
+        <span>薄弱 {summary.weakItems}</span>
+      </div>
+      <div className="tag-progress-row">
+        {summary.tagSummaries
+          .filter((tagSummary) => tagSummary.totalItems > 0)
+          .map((tagSummary) => (
+            <span className="item-meta" key={tagSummary.tag}>
+              {phraseTagLabels[tagSummary.tag]} {tagSummary.totalAttempts > 0 ? `${tagSummary.accuracy}%` : "未练"}
+            </span>
+          ))}
+      </div>
+      <p className="muted">
+        {summary.focusTag ? `重点补：${phraseTagLabels[summary.focusTag.tag]}` : "暂无考试内容"}
+      </p>
+    </article>
+  );
+}
 
 export function ProgressScreen({
   progress,
@@ -14,6 +47,7 @@ export function ProgressScreen({
   const recentItems = progress.recentItemIds
     .map((id) => items.find((item) => item.id === id))
     .filter((item): item is LearningItem => Boolean(item));
+  const examProgressSummaries = getExamProgressSummaries(items, progress);
 
   return (
     <section className="practice-card">
@@ -36,6 +70,12 @@ export function ProgressScreen({
           <span>短语匹配</span>
           <strong>{progress.phraseMatchAttempts}</strong>
         </div>
+      </div>
+      <h2 className="section-title">考试目标进度</h2>
+      <div className="exam-progress-grid">
+        {examProgressSummaries.map((summary) => (
+          <ExamProgressCard key={summary.examLevel} summary={summary} />
+        ))}
       </div>
       <h2 className="section-title">最近练习</h2>
       <div className="item-list">

@@ -420,7 +420,7 @@ export const cet4Items = createExamItems("CET4", [
     exampleZh: "老师指出了我翻译中的几个错误。",
     category: "Writing",
     difficulty: "Intermediate",
-    tags: ["HighFrequency", "Translation"]
+    tags: ["HighFrequency", "Writing", "Translation"]
   },
   {
     id: "prevent-from",
@@ -471,5 +471,105 @@ export const cet4Items = createExamItems("CET4", [
     category: "CET",
     difficulty: "Basic",
     tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "as-long-as",
+    phrase: "as long as",
+    meaningZh: "只要",
+    example: "As long as you review regularly, small mistakes will gradually disappear.",
+    exampleZh: "只要你经常复习，小错误会逐渐消失。",
+    category: "Writing",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Writing", "Reading"]
+  },
+  {
+    id: "be-short-of",
+    phrase: "be short of",
+    meaningZh: "缺少，不足",
+    example: "Many students are short of time when they prepare for several exams at once.",
+    exampleZh: "同时准备几场考试时，许多学生时间不足。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Reading", "Translation"]
+  },
+  {
+    id: "be-supposed-to",
+    phrase: "be supposed to",
+    meaningZh: "应该，被期望",
+    example: "Candidates are supposed to write clearly and answer every part of the question.",
+    exampleZh: "考生应该书写清楚，并回答题目的每个部分。",
+    category: "Speaking",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "by-means-of",
+    phrase: "by means of",
+    meaningZh: "通过，借助于",
+    example: "Students can explain survey results by means of simple comparisons.",
+    exampleZh: "学生可以通过简单比较来解释调查结果。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Writing", "Translation"]
+  },
+  {
+    id: "for-example",
+    phrase: "for example",
+    meaningZh: "例如",
+    example: "For example, short videos can help learners review key expressions.",
+    exampleZh: "例如，短视频可以帮助学习者复习关键表达。",
+    category: "Writing",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Writing", "Reading"]
+  },
+  {
+    id: "have-difficulty-in",
+    phrase: "have difficulty in",
+    meaningZh: "在……方面有困难",
+    example: "Some freshmen have difficulty in managing their time at first.",
+    exampleZh: "一些大一新生起初在管理时间方面有困难。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "in-case-of",
+    phrase: "in case of",
+    meaningZh: "万一，如果发生",
+    example: "In case of sudden noise, keep calm and continue listening carefully.",
+    exampleZh: "万一出现突然的噪音，要保持冷静并继续认真听。",
+    category: "Writing",
+    difficulty: "Intermediate",
+    tags: ["Writing", "Translation"]
+  },
+  {
+    id: "keep-up-with",
+    phrase: "keep up with",
+    meaningZh: "跟上",
+    example: "Reading English news helps students keep up with changes in society.",
+    exampleZh: "阅读英文新闻帮助学生跟上社会变化。",
+    category: "CET",
+    difficulty: "Basic",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "make-progress-in",
+    phrase: "make progress in",
+    meaningZh: "在……方面取得进步",
+    example: "Learners make progress in writing when they revise their drafts carefully.",
+    exampleZh: "学习者认真修改草稿时，会在写作方面取得进步。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "turn-into",
+    phrase: "turn into",
+    meaningZh: "变成，转变为",
+    example: "A small reading habit can turn into a strong advantage over time.",
+    exampleZh: "一个小小的阅读习惯久而久之会变成明显优势。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Translation"]
   }
 ]);

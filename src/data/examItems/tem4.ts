@@ -335,8 +335,8 @@ export const tem4Items = createExamItems("TEM4", [
     id: "do-away-with",
     phrase: "do away with",
     meaningZh: "废除，去掉",
-    example: "The new edition does away with several outdated expressions.",
-    exampleZh: "新版去掉了几个过时表达。",
+    example: "The new edition aims to do away with several outdated expressions.",
+    exampleZh: "新版旨在去掉几个过时表达。",
     category: "CET",
     difficulty: "Advanced",
     tags: ["Reading", "Translation"]
@@ -470,5 +470,105 @@ export const tem4Items = createExamItems("TEM4", [
     category: "CET",
     difficulty: "Intermediate",
     tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "appeal-to",
+    phrase: "appeal to",
+    meaningZh: "吸引，诉诸",
+    example: "Certain images appeal to readers because they connect emotion with memory.",
+    exampleZh: "某些意象吸引读者，因为它们把情感与记忆联系起来。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Reading", "Speaking"]
+  },
+  {
+    id: "bring-home-to",
+    phrase: "bring home to",
+    meaningZh: "使深切认识到",
+    example: "The final scene brings home to readers the cost of blind ambition.",
+    exampleZh: "最后一幕使读者深切认识到盲目野心的代价。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "come-under",
+    phrase: "come under",
+    meaningZh: "受到，归入",
+    example: "The speech comes under close examination because of its unusual structure.",
+    exampleZh: "这篇演讲因结构不同寻常而受到仔细审视。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "expand-on",
+    phrase: "expand on",
+    meaningZh: "进一步说明，详述",
+    example: "In the interview, expand on your answer with one relevant example.",
+    exampleZh: "在访谈中，用一个相关例子进一步说明你的回答。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking", "Writing"]
+  },
+  {
+    id: "get-through-to",
+    phrase: "get through to",
+    meaningZh: "使……理解，打通联系",
+    example: "The speaker tries to get through to listeners by using plain examples.",
+    exampleZh: "演讲者试图通过朴素的例子让听众理解。",
+    category: "Speaking",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Speaking"]
+  },
+  {
+    id: "hold-on-to",
+    phrase: "hold on to",
+    meaningZh: "坚持，保留",
+    example: "The character chooses to hold on to his dignity in difficult times.",
+    exampleZh: "这个人物选择在困难时期坚持自己的尊严。",
+    category: "CET",
+    difficulty: "Intermediate",
+    tags: ["HighFrequency", "Reading"]
+  },
+  {
+    id: "read-between-the-lines",
+    phrase: "read between the lines",
+    meaningZh: "领会言外之意",
+    example: "Good readers read between the lines when the narrator hides his feelings.",
+    exampleZh: "当叙述者隐藏情感时，优秀读者会领会言外之意。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "take-exception-to",
+    phrase: "take exception to",
+    meaningZh: "反对，对……提出异议",
+    example: "The critic may take exception to the writer's simplified view of culture.",
+    exampleZh: "评论家可能会反对作者对文化的简化看法。",
+    category: "Speaking",
+    difficulty: "Advanced",
+    tags: ["Speaking", "Writing"]
+  },
+  {
+    id: "trace-back-to",
+    phrase: "trace back to",
+    meaningZh: "追溯到",
+    example: "The conflict can trace back to differences in family expectations.",
+    exampleZh: "这种冲突可以追溯到家庭期待的差异。",
+    category: "CET",
+    difficulty: "Advanced",
+    tags: ["Reading", "Translation"]
+  },
+  {
+    id: "write-off-as",
+    phrase: "write off as",
+    meaningZh: "认为……无价值，轻视",
+    example: "Do not write a minor character off as unimportant too quickly.",
+    exampleZh: "不要过快地把一个次要人物看作无关紧要。",
+    category: "Writing",
+    difficulty: "Advanced",
+    tags: ["Writing", "Reading"]
   }
 ]);

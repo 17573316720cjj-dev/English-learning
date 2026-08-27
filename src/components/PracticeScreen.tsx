@@ -11,6 +11,11 @@ import {
 } from "../lib/practice";
 import { loadUserSeed, recordPracticeAttempt } from "../lib/storage";
 import { difficultyLabels } from "../lib/labels";
+import {
+  defaultPracticeFilters,
+  filterLearningItems,
+  type PracticeLaunchConfig
+} from "../lib/studyPlans";
 import { getItemTags, phraseTagLabels } from "../lib/tags";
 
 const examFilters: Array<ExamLevel | "All"> = ["All", "CET4", "CET6", "TEM4", "TEM8"];
@@ -38,15 +43,18 @@ function getExamFilterLabel(filter: ExamLevel | "All"): string {
 
 export function PracticeScreen({
   items,
+  launchConfig,
   onProgressChange
 }: {
   items: LearningItem[];
+  launchConfig?: PracticeLaunchConfig | null;
   onProgressChange(): void;
 }): React.JSX.Element {
   const [mode, setMode] = useState<"fill-blank" | "phrase-match">("fill-blank");
-  const [activeExamLevel, setActiveExamLevel] = useState<ExamLevel | "All">("All");
-  const [activeTag, setActiveTag] = useState<PhraseTag | "All">("All");
-  const [activeDifficulty, setActiveDifficulty] = useState<PhraseDifficulty | "All">("All");
+  const initialFilters = launchConfig?.filters ?? defaultPracticeFilters;
+  const [activeExamLevel, setActiveExamLevel] = useState<ExamLevel | "All">(initialFilters.examLevel);
+  const [activeTag, setActiveTag] = useState<PhraseTag | "All">(initialFilters.tag);
+  const [activeDifficulty, setActiveDifficulty] = useState<PhraseDifficulty | "All">(initialFilters.difficulty);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [userSeed] = useState(() => loadUserSeed());
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -55,20 +63,22 @@ export function PracticeScreen({
   const [selectedPhraseId, setSelectedPhraseId] = useState<string | null>(null);
   const [matchFeedback, setMatchFeedback] = useState<MatchFeedback | null>(null);
   const visibleItems = useMemo(
-    () =>
-      items.filter((item) => {
-        const matchesExamLevel = activeExamLevel === "All" || item.examLevel === activeExamLevel;
-        const matchesTag = activeTag === "All" || getItemTags(item).includes(activeTag);
-        const matchesDifficulty = activeDifficulty === "All" || item.difficulty === activeDifficulty;
+    () => {
+      const focusedItemIds = launchConfig?.itemIds ? new Set(launchConfig.itemIds) : null;
 
-        return matchesExamLevel && matchesTag && matchesDifficulty;
-      }),
-    [activeDifficulty, activeExamLevel, activeTag, items]
+      return filterLearningItems(items, {
+        examLevel: activeExamLevel,
+        tag: activeTag,
+        difficulty: activeDifficulty
+      }).filter((item) => !focusedItemIds || focusedItemIds.has(item.id));
+    },
+    [activeDifficulty, activeExamLevel, activeTag, items, launchConfig?.itemIds]
   );
   const filterScope =
-    activeTag === "All" && activeDifficulty === "All"
+    launchConfig?.scopeId ??
+    (activeTag === "All" && activeDifficulty === "All"
       ? activeExamLevel
-      : `${activeExamLevel}:${activeTag}:${activeDifficulty}`;
+      : `${activeExamLevel}:${activeTag}:${activeDifficulty}`);
   const shuffledItems = useMemo(
     () => shuffleLearningItems(visibleItems, userSeed, filterScope),
     [filterScope, userSeed, visibleItems]
@@ -89,7 +99,11 @@ export function PracticeScreen({
     activeDifficulty === "All" ? null : difficultyFilterLabels[activeDifficulty]
   ].filter((label): label is string => Boolean(label));
   const compactFilterLabels =
-    activeFilterLabels.length > 0 ? activeFilterLabels : ["全部考试", "全部标签", "全部难度"];
+    launchConfig?.title && activeFilterLabels.length === 0
+      ? [launchConfig.title]
+      : activeFilterLabels.length > 0
+        ? activeFilterLabels
+        : ["全部考试", "全部标签", "全部难度"];
 
   if (items.length === 0) {
     return (
@@ -208,6 +222,14 @@ export function PracticeScreen({
   return (
     <section className="screen-grid">
       <div className="practice-card">
+        {launchConfig?.title ? (
+          <div className="practice-launch-summary">
+            <p className="eyebrow">练习计划</p>
+            <h2>{launchConfig.title}</h2>
+            {launchConfig.description ? <p className="muted">{launchConfig.description}</p> : null}
+          </div>
+        ) : null}
+
         <div className="practice-settings" aria-label="练习设置">
           <div className="filter-summary compact">
             <div>
