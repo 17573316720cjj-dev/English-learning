@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { builtInItems } from "../src/data/builtInItems";
 import type { LearningItem, ProgressState } from "../src/domain";
 import {
   DAILY_PRACTICE_ITEM_LIMIT,
@@ -110,5 +111,13 @@ describe("study plans", () => {
 
   it("formats today's date as a local stable key", () => {
     expect(getTodayPracticeDateKey(new Date(2026, 7, 6))).toBe("2026-08-06");
+  });
+
+  it("has enough built-in items for every study plan preset", () => {
+    for (const preset of studyPlanPresets) {
+      const matchingItems = filterLearningItems(builtInItems, preset.filters);
+
+      expect(matchingItems.length).toBeGreaterThanOrEqual(DAILY_PRACTICE_ITEM_LIMIT);
+    }
   });
 });

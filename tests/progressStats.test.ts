@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { examItems } from "../src/data/examItems";
 import type { LearningItem, ProgressState } from "../src/domain";
 import { getExamProgressSummaries } from "../src/lib/progressStats";
 
@@ -110,5 +111,23 @@ describe("exam progress stats", () => {
         accuracy: 33
       })
     );
+  });
+
+  it("uses expanded exam totals in progress summaries", () => {
+    const summaries = getExamProgressSummaries(examItems, {
+      totalAttempts: 0,
+      correctAttempts: 0,
+      fillBlankAttempts: 0,
+      phraseMatchAttempts: 0,
+      perItem: {},
+      recentItemIds: []
+    });
+
+    expect(Object.fromEntries(summaries.map((summary) => [summary.examLevel, summary.totalItems]))).toEqual({
+      CET4: 200,
+      CET6: 250,
+      TEM4: 300,
+      TEM8: 350
+    });
   });
 });

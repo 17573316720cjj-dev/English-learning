@@ -71,7 +71,7 @@ export const studyPlanPresets: StudyPlanPreset[] = [
     filters: {
       examLevel: "TEM8",
       tag: "Speaking",
-      difficulty: "Intermediate"
+      difficulty: "Advanced"
     }
   }
 ];
