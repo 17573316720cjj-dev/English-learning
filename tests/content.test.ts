@@ -15,7 +15,7 @@ const targetExamItemCounts: Record<ExamLevel, number> = {
   CET4: 200,
   CET6: 250,
   TEM4: 300,
-  TEM8: 60
+  TEM8: 350
 };
 
 const minimumTagPracticeItems: Record<ExamLevel, Record<PhraseTag, number>> = {
@@ -41,11 +41,11 @@ const minimumTagPracticeItems: Record<ExamLevel, Record<PhraseTag, number>> = {
     Speaking: 50
   },
   TEM8: {
-    HighFrequency: 12,
-    Writing: 10,
-    Reading: 12,
-    Translation: 10,
-    Speaking: 8
+    HighFrequency: 70,
+    Writing: 170,
+    Reading: 170,
+    Translation: 160,
+    Speaking: 60
   }
 };
 
@@ -65,8 +65,8 @@ const minimumDifficultyBands: Record<ExamLevel, Partial<Record<LearningItem["dif
     Advanced: 120
   },
   TEM8: {
-    Intermediate: 8,
-    Advanced: 45
+    Intermediate: 80,
+    Advanced: 250
   }
 };
 const maximumDifficultyBands: Record<ExamLevel, Partial<Record<LearningItem["difficulty"], number>>> = {
