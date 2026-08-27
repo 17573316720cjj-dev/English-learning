@@ -416,6 +416,26 @@ describe("App", () => {
     expect(screen.getByText(firstItem.phrase)).toBeInTheDocument();
   });
 
+  it("shows exam target progress on the progress screen", async () => {
+    const cet4Item = builtInItems.find((item) => item.examLevel === "CET4" && getItemTags(item).includes("Reading"));
+    if (!cet4Item) throw new Error("Expected a CET-4 reading item");
+
+    recordPracticeAttempt({ itemId: cet4Item.id, mode: "fill-blank", correct: false });
+
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "进度" }));
+
+    expect(screen.getByRole("heading", { name: "考试目标进度" })).toBeInTheDocument();
+
+    const cet4ProgressCard = screen.getByLabelText("CET-4 进度");
+    expect(within(cet4ProgressCard).getByText("CET-4")).toBeInTheDocument();
+    expect(within(cet4ProgressCard).getByText("已练 1 / 60")).toBeInTheDocument();
+    expect(within(cet4ProgressCard).getByText("练习 1 次")).toBeInTheDocument();
+    expect(within(cet4ProgressCard).getByText("正确率 0%")).toBeInTheDocument();
+    expect(within(cet4ProgressCard).getByText("薄弱 1")).toBeInTheDocument();
+    expect(within(cet4ProgressCard).getByText(/重点补/)).toBeInTheDocument();
+  });
+
   it("shows an empty wrong-book review state before mistakes", async () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "错题复习" }));

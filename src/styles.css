@@ -519,6 +519,52 @@ p {
   margin-top: 16px;
 }
 
+.exam-progress-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.exam-progress-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.exam-progress-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.exam-progress-card h3 {
+  margin: 0;
+}
+
+.exam-progress-metrics,
+.tag-progress-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exam-progress-metrics span {
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: var(--surface-soft);
+  color: #374151;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.exam-progress-card p {
+  margin-bottom: 0;
+}
+
 .stat-card {
   border: 1px solid var(--border-soft);
   border-radius: 8px;
@@ -581,6 +627,10 @@ p {
   }
 
   .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-progress-grid {
     grid-template-columns: 1fr;
   }
 }
