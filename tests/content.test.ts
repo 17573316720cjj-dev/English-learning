@@ -14,7 +14,7 @@ const singleWordMaximumRatio = 0.2;
 const targetExamItemCounts: Record<ExamLevel, number> = {
   CET4: 200,
   CET6: 250,
-  TEM4: 60,
+  TEM4: 300,
   TEM8: 60
 };
 
@@ -34,11 +34,11 @@ const minimumTagPracticeItems: Record<ExamLevel, Record<PhraseTag, number>> = {
     Speaking: 40
   },
   TEM4: {
-    HighFrequency: 12,
-    Writing: 10,
-    Reading: 12,
-    Translation: 10,
-    Speaking: 8
+    HighFrequency: 90,
+    Writing: 105,
+    Reading: 140,
+    Translation: 105,
+    Speaking: 50
   },
   TEM8: {
     HighFrequency: 12,
@@ -60,8 +60,9 @@ const minimumDifficultyBands: Record<ExamLevel, Partial<Record<LearningItem["dif
     Advanced: 70
   },
   TEM4: {
-    Intermediate: 20,
-    Advanced: 20
+    Basic: 10,
+    Intermediate: 150,
+    Advanced: 120
   },
   TEM8: {
     Intermediate: 8,
