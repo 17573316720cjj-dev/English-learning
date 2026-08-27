@@ -8,14 +8,47 @@ import { getItemTags } from "../src/lib/tags";
 
 const examLevels: ExamLevel[] = ["CET4", "CET6", "TEM4", "TEM8"];
 const phraseTags: PhraseTag[] = ["HighFrequency", "Writing", "Reading", "Translation", "Speaking"];
-const minimumExamItemCount = 60;
-const minimumTagPracticeItems: Record<PhraseTag, number> = {
-  HighFrequency: 12,
-  Writing: 10,
-  Reading: 12,
-  Translation: 10,
-  Speaking: 8
+const phraseFirstMinimumRatio = 0.8;
+const singleWordMaximumRatio = 0.2;
+
+const targetExamItemCounts: Record<ExamLevel, number> = {
+  CET4: 60,
+  CET6: 60,
+  TEM4: 60,
+  TEM8: 60
 };
+
+const minimumTagPracticeItems: Record<ExamLevel, Record<PhraseTag, number>> = {
+  CET4: {
+    HighFrequency: 12,
+    Writing: 10,
+    Reading: 12,
+    Translation: 10,
+    Speaking: 8
+  },
+  CET6: {
+    HighFrequency: 12,
+    Writing: 10,
+    Reading: 12,
+    Translation: 10,
+    Speaking: 8
+  },
+  TEM4: {
+    HighFrequency: 12,
+    Writing: 10,
+    Reading: 12,
+    Translation: 10,
+    Speaking: 8
+  },
+  TEM8: {
+    HighFrequency: 12,
+    Writing: 10,
+    Reading: 12,
+    Translation: 10,
+    Speaking: 8
+  }
+};
+
 const minimumDifficultyBands: Record<ExamLevel, Partial<Record<LearningItem["difficulty"], number>>> = {
   CET4: {
     Basic: 30,
@@ -34,6 +67,28 @@ const minimumDifficultyBands: Record<ExamLevel, Partial<Record<LearningItem["dif
     Advanced: 45
   }
 };
+const maximumDifficultyBands: Record<ExamLevel, Partial<Record<LearningItem["difficulty"], number>>> = {
+  CET4: {
+    Advanced: 10
+  },
+  CET6: {
+    Basic: 35
+  },
+  TEM4: {
+    Basic: 30
+  },
+  TEM8: {
+    Basic: 0
+  }
+};
+
+function getExamLevelItems(level: ExamLevel): LearningItem[] {
+  return examItems.filter((item) => item.examLevel === level);
+}
+
+function isMultiWordPhrase(item: LearningItem): boolean {
+  return item.phrase.trim().split(/\s+/).filter(Boolean).length >= 2;
+}
 
 function isCompleteExamItem(item: LearningItem): boolean {
   return Boolean(
@@ -54,9 +109,7 @@ function isCompleteExamItem(item: LearningItem): boolean {
 describe("exam content", () => {
   it("has enough built-in items for each supported exam level", () => {
     for (const level of examLevels) {
-      expect(examItems.filter((item) => item.examLevel === level).length).toBeGreaterThanOrEqual(
-        minimumExamItemCount
-      );
+      expect(getExamLevelItems(level).length).toBeGreaterThanOrEqual(targetExamItemCounts[level]);
     }
   });
 
@@ -72,11 +125,11 @@ describe("exam content", () => {
 
   it("has enough practice items for every key tag within each exam level", () => {
     for (const level of examLevels) {
-      const items = examItems.filter((item) => item.examLevel === level);
+      const items = getExamLevelItems(level);
 
       for (const tag of phraseTags) {
         expect(items.filter((item) => getItemTags(item).includes(tag)).length).toBeGreaterThanOrEqual(
-          minimumTagPracticeItems[tag]
+          minimumTagPracticeItems[level][tag]
         );
       }
     }
@@ -84,7 +137,7 @@ describe("exam content", () => {
 
   it("keeps a reasonable difficulty spread for each exam level", () => {
     for (const level of examLevels) {
-      const items = examItems.filter((item) => item.examLevel === level);
+      const items = getExamLevelItems(level);
 
       for (const [difficulty, minimumCount] of Object.entries(minimumDifficultyBands[level])) {
         expect(items.filter((item) => item.difficulty === difficulty).length).toBeGreaterThanOrEqual(
@@ -94,11 +147,39 @@ describe("exam content", () => {
     }
   });
 
+  it("keeps every exam level phrase-first", () => {
+    for (const level of examLevels) {
+      const items = getExamLevelItems(level);
+      const multiWordItems = items.filter(isMultiWordPhrase);
+
+      expect(multiWordItems.length / items.length).toBeGreaterThanOrEqual(phraseFirstMinimumRatio);
+    }
+  });
+
+  it("keeps single-word anchors capped in every exam level", () => {
+    for (const level of examLevels) {
+      const items = getExamLevelItems(level);
+      const singleWordItems = items.filter((item) => !isMultiWordPhrase(item));
+
+      expect(singleWordItems.length / items.length).toBeLessThanOrEqual(singleWordMaximumRatio);
+    }
+  });
+
+  it("does not let difficulty labels drift beyond exam level caps", () => {
+    for (const level of examLevels) {
+      const items = getExamLevelItems(level);
+
+      for (const [difficulty, maximumCount] of Object.entries(maximumDifficultyBands[level])) {
+        expect(items.filter((item) => item.difficulty === difficulty).length).toBeLessThanOrEqual(
+          maximumCount
+        );
+      }
+    }
+  });
+
   it("does not duplicate phrases inside an exam level", () => {
     for (const level of examLevels) {
-      const phrases = examItems
-        .filter((item) => item.examLevel === level)
-        .map((item) => item.phrase.toLocaleLowerCase());
+      const phrases = getExamLevelItems(level).map((item) => item.phrase.toLocaleLowerCase());
 
       expect(new Set(phrases).size).toBe(phrases.length);
     }
